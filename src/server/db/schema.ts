@@ -27,6 +27,35 @@ export const posts = pgTable(
   }),
 );
 
+export const djs = pgTable("dj", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+
+  userId: varchar("id", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+});
+
+// This will be super important
+export const djsRelations = relations(djs, ({ one, many }) => ({
+  user: one(users, { fields: [djs.userId], references: [users.id] }),
+  shows: many(shows),
+}));
+
+export const shows = pgTable("show", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  dj: varchar("dj", { length: 255 })
+    .notNull()
+    .references(() => djs.id),
+  genres: varchar("genres", { length: 255 }).array(),
+});
+
+export const showRelations = relations(shows, ({ one }) => ({
+  dj: one(djs, { fields: [shows.dj], references: [djs.id] }),
+}));
+
 export const users = pgTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),

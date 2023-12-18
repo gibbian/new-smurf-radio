@@ -991,6 +991,11 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
+eslint-plugin-drizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-drizzle/-/eslint-plugin-drizzle-0.2.2.tgz#d3236ff8e6eb3947a10ceba4ca81641667e47e5d"
+  integrity sha512-dyGlL9iOYjSK7jpgh87jL6zZP42mLZV0xrAYv+/hMbh/4ml3oR758wnk5G3frH60rHYscIS6GYL5juSir4yELg==
+
 eslint-scope@^7.2.2:
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-7.2.2.tgz#deb4f92563390f32006894af62a22dba1c46423f"

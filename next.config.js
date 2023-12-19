@@ -1,4 +1,5 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import { env } from "./src/env.js";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
@@ -18,7 +19,8 @@ export default withSentryConfig(
       tunnelRoute: "/monitoring",
 
       // Hides source maps from generated client bundles
-      hideSourceMaps: true,
+      // TODO: Double check
+      hideSourceMaps: false,
 
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       disableLogger: true,

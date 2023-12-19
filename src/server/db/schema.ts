@@ -1,7 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,
-  serial,
   index,
   pgTable,
   primaryKey,
@@ -11,39 +10,19 @@ import {
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
-export const posts = pgTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("createdById", { length: 255 }).notNull(),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
-
 export const djs = pgTable("dj", {
   id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
   name: varchar("name", { length: 255 }).notNull(),
-
-  userId: varchar("id", { length: 255 })
-    .notNull()
-    .references(() => users.id),
 });
 
 // This will be super important
 export const djsRelations = relations(djs, ({ one, many }) => ({
-  user: one(users, { fields: [djs.userId], references: [users.id] }),
+  user: one(users, { fields: [djs.id], references: [users.djId] }),
   shows: many(shows),
 }));
 
 export const shows = pgTable("show", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   dj: varchar("dj", { length: 255 })
@@ -64,11 +43,13 @@ export const users = pgTable("user", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varchar("image", { length: 255 }),
+  djId: varchar("djId", { length: 255 }).references(() => djs.id),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
+  dj: one(djs, { fields: [users.djId], references: [djs.id] }),
 }));
 
 export const accounts = pgTable(

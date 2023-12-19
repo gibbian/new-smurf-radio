@@ -1,5 +1,5 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import {
+  type DefaultUser,
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
@@ -8,6 +8,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { myShittyAdapter } from "./db/adapter";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -19,15 +20,26 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      djId?: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    djId?: string;
+    // role: UserRole;
+  }
+
+  interface AdapterUser extends DefaultUser {
+    id: string;
+    djId: string | null;
+    name: string | null;
+    email: string;
+    emailVerified: Date | null;
+    image: string | null;
+  }
 }
 
 /**
@@ -37,15 +49,18 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          djId: user.djId ? user.djId : undefined,
+        },
+      };
+    },
   },
-  adapter: DrizzleAdapter(db),
+  adapter: myShittyAdapter(db),
 
   providers: [
     GoogleProvider({

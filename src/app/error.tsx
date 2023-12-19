@@ -1,19 +1,11 @@
 "use client";
-
-import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
-
 export default function Error({
-  error,
+  error: _error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#171717] text-white">
       <h2>Something went wrong!</h2>

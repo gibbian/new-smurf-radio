@@ -1,17 +1,14 @@
+import Link from "next/link";
+import { getServerAuthSession } from "~/server/auth";
+
 export default async function Home() {
-  // const hello = await api.post.hello.query({ text: "from tRPC" });
-  // const session = await getServerAuthSession();
-  const action = async () => {
-    "use server";
-    throw new Error("Error on purpose");
-  };
+  const session = await getServerAuthSession();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#171717] text-white">
       <div>SMURF RADIO</div>
-      <form action={action}>
-        <button type="submit">Submit Error</button>
-      </form>
+      {JSON.stringify(session?.user)}
+      <Link href={"/api/auth/signin"}>Sign IN</Link>
     </main>
   );
 }

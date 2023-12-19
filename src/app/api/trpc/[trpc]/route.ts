@@ -1,5 +1,6 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { type NextRequest } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { env } from "~/env";
 import { appRouter } from "~/server/api/root";
@@ -25,10 +26,12 @@ const handler = (req: NextRequest) =>
       env.NODE_ENV === "development"
         ? ({ path, error }) => {
             console.error(
-              `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`
+              `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`,
             );
           }
-        : undefined,
+        : (opts) => {
+            Sentry.captureException(opts.error);
+          },
   });
 
 export { handler as GET, handler as POST };

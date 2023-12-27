@@ -39,6 +39,7 @@ declare module "next-auth" {
     email: string;
     emailVerified: Date | null;
     image: string | null;
+    accessLevel: number;
   }
 }
 

@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   bigint,
   index,
+  integer,
   pgTable,
   primaryKey,
   text,
@@ -23,27 +24,111 @@ export const djsRelations = relations(djs, ({ one, many }) => ({
 
 export const shows = pgTable("show", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }),
   description: text("description"),
-  dj: varchar("dj", { length: 255 })
+
+  djId: varchar("dj", { length: 255 })
     .notNull()
     .references(() => djs.id),
+
+  // Shortcut to prevent a join on every show fetch
+  djName: varchar("dj_name", { length: 255 }).notNull(),
+
   genres: varchar("genres", { length: 255 }).array(),
+
+  startTime: timestamp("start_time", {
+    withTimezone: true,
+  }).notNull(),
+  endTime: timestamp("end_time", {
+    withTimezone: true,
+  }).notNull(),
+
+  image: varchar("image", { length: 255 }),
+
+  lastSaved: timestamp("last_saved", {
+    mode: "date",
+  }).default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
+export const chatMessages = pgTable("chat_message", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  showId: varchar("show_id", { length: 255 })
+    .notNull()
+    .references(() => shows.id, {
+      onDelete: "cascade",
+    }),
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  message: text("message"),
+  timestamp: timestamp("timestamp", {
+    mode: "date",
+  }).default(sql`CURRENT_TIMESTAMP(3)`),
+});
+
+export const songs = pgTable("song", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  artist: varchar("artist", { length: 255 }).notNull(),
+  artistId: varchar("artist_id", { length: 255 }),
+  album: varchar("album", { length: 255 }).notNull(),
+  albumArt: varchar("album_art", { length: 255 }),
+  albumId: varchar("album_id", { length: 255 }),
+  externalUrl: varchar("external_url", { length: 255 }),
+  duration: bigint("duration", { mode: "bigint" }),
+  explicit: varchar("explicit", { length: 255 }),
+  popularity: bigint("popularity", { mode: "bigint" }),
+  previewUrl: varchar("preview_url", { length: 255 }),
+
+  // spotifyBlob: json("spotifyBlob").$type<SpotifyApi.TrackObjectFull>(),
+});
+
+// Join table from shows to songs
+export const tracklists = pgTable(
+  "tracklist",
+  {
+    showId: varchar("show_id", { length: 255 })
+      .references(() => shows.id, {
+        onDelete: "cascade",
+      })
+      .notNull(),
+    songId: varchar("song_id", { length: 255 })
+      .references(() => songs.id, {
+        onDelete: "cascade",
+      })
+      .notNull(),
+    index: bigint("index", { mode: "bigint" }).notNull(),
+  },
+  (t) => {
+    return {
+      pk: primaryKey(t.showId, t.songId),
+    };
+  },
+);
+
+export const tracklistsRelations = relations(tracklists, ({ one }) => ({
+  show: one(shows, { fields: [tracklists.showId], references: [shows.id] }),
+  song: one(songs, { fields: [tracklists.songId], references: [songs.id] }),
+}));
+
 export const showRelations = relations(shows, ({ one }) => ({
-  dj: one(djs, { fields: [shows.dj], references: [djs.id] }),
+  dj: one(djs, { fields: [shows.djId], references: [djs.id] }),
 }));
 
 export const users = pgTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("emailVerified", {
+  emailVerified: timestamp("email_verified", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varchar("image", { length: 255 }),
-  djId: varchar("djId", { length: 255 }).references(() => djs.id),
+  accessLevel: integer("accessLevel").default(0),
+  djId: varchar("dj_id", { length: 255 }).references(() => djs.id, {
+    onDelete: "set null",
+  }),
 });
 
 export const usersRelations = relations(users, ({ many, one }) => ({
@@ -55,7 +140,11 @@ export const usersRelations = relations(users, ({ many, one }) => ({
 export const accounts = pgTable(
   "account",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
     type: varchar("type", { length: 255 })
       .$type<AdapterAccount["type"]>()
       .notNull(),
@@ -85,7 +174,11 @@ export const sessions = pgTable(
     sessionToken: varchar("sessionToken", { length: 255 })
       .notNull()
       .primaryKey(),
-    userId: varchar("userId", { length: 255 }).notNull(),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (session) => ({

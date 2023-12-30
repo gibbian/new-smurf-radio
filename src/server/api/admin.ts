@@ -9,10 +9,14 @@ export const adminRouter = createTRPCRouter({
   createDJ: adminProcedure
     .input(z.object({ name: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      await ctx.db.insert(djs).values({
-        name: input.name,
-        id: "dj-" + nanoid(5),
-      });
+      const result = await ctx.db
+        .insert(djs)
+        .values({
+          name: input.name,
+          id: "dj-" + nanoid(5),
+        })
+        .returning();
+      return result[0];
     }),
 
   linkDJ: adminProcedure

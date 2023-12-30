@@ -26,8 +26,8 @@ export default function ({ children }: { children: ReactNode }) {
 
   if (user.accessLevel == 4) {
     links.push({
-      label: "SUPER ADMIN",
-      href: "/member/admin/superadmin",
+      label: "ADMIN",
+      href: "/member/admin",
     });
   }
 

@@ -4,7 +4,6 @@
 // TODO: Fix above
 import { and, eq } from "drizzle-orm";
 import { type PgDatabase } from "drizzle-orm/pg-core";
-import { type AdapterUser } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import * as schema from "./schema"; // this is where your custom tables are defined
 
@@ -19,7 +18,7 @@ export function myShittyAdapter(
         .insert(users)
         .values({ ...data, id: crypto.randomUUID(), djId: undefined })
         .returning()
-        .then((res) => res.at(0) as AdapterUser);
+        .then((res) => res.at(0));
     },
     async getUser(data) {
       return await client

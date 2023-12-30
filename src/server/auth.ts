@@ -21,6 +21,7 @@ declare module "next-auth" {
     user: {
       id: string;
       djId?: string;
+      accessLevel: number;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -29,17 +30,8 @@ declare module "next-auth" {
   interface User {
     // ...other properties
     djId?: string;
-    // role: UserRole;
-  }
-
-  interface AdapterUser extends DefaultUser {
-    id: string;
-    djId: string | null;
-    name: string | null;
-    email: string;
-    emailVerified: Date | null;
-    image: string | null;
     accessLevel: number;
+    // role: UserRole;
   }
 }
 
@@ -57,6 +49,7 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: user.id,
           djId: user.djId ? user.djId : undefined,
+          accessLevel: user.accessLevel,
         },
       };
     },

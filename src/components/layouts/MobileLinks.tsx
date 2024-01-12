@@ -6,9 +6,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { type Link as LinkType } from "./MainLayout";
 import { createPortal } from "react-dom";
+import { twMerge } from "tailwind-merge";
+import { usePathname } from "next/navigation";
 
 export const MobileLinks = ({ links }: { links: LinkType[] }) => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -24,10 +27,14 @@ export const MobileLinks = ({ links }: { links: LinkType[] }) => {
             {links.map((link) => (
               <Link
                 onClick={() => setOpen(false)}
+                className={twMerge(
+                  "text-sm font-semibold uppercase",
+                  pathname === link.href ? "underline decoration-2" : undefined,
+                )}
                 href={link.href}
                 key={link.label}
               >
-                {link.label}
+                {link.label.toUpperCase()}
               </Link>
             ))}
             <div

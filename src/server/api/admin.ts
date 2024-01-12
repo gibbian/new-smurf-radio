@@ -3,8 +3,8 @@ import { z } from "zod";
 import { djs, slots, users } from "../db/schema";
 import { adminProcedure, createTRPCRouter } from "./trpc";
 
-import { asc, desc, eq } from "drizzle-orm";
 import { getDay, getHours } from "date-fns";
+import { asc, eq } from "drizzle-orm";
 
 export const adminRouter = createTRPCRouter({
   createDJ: adminProcedure
@@ -73,6 +73,8 @@ export const adminRouter = createTRPCRouter({
           target: slots.djId,
           set: {
             time: input.time,
+            dayOfWeek: getDay(input.time),
+            hourOfDay: getHours(input.time),
           },
         })
         .returning();
@@ -89,8 +91,7 @@ export const adminRouter = createTRPCRouter({
       })
       .from(djs)
       .leftJoin(slots, eq(slots.djId, djs.id))
-      // Show null slots first
-      .orderBy(asc(slots.dayOfWeek), asc(slots.hourOfDay));
+      .orderBy(asc(slots.dayOfWeek));
 
     return result;
   }),

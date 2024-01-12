@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: { djId: string } }) {
 
   return (
     <div>
-      <div className="mb-12 flex">
+      <div className="mb-12 flex flex-col gap-2 sm:flex-row">
         <div className="flex-grow">
           <div className="text-lg font-bold">{details.name}</div>
           <div className="text-sm">{details.user?.email}</div>

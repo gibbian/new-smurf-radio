@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { MainLayout } from "~/components/layouts/MainLayout";
 import { getServerAuthSession } from "~/server/auth";
 import { TRPCReactProvider } from "~/trpc/react";
+import { Toaster } from "~/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],

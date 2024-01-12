@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import { Toaster } from "../ui/sonner";
 
 export type Link = {
   href: string;
@@ -70,6 +71,7 @@ export const MainLayout = ({
           </div>
         </nav>
         <main className="p-4 text-text md:p-6">{children}</main>
+        <Toaster />
       </div>
     </SessionProvider>
   );

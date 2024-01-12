@@ -1,9 +1,10 @@
-import { z } from "zod";
-import { adminProcedure, createTRPCRouter } from "./trpc";
-import { djs, users } from "../db/schema";
 import { nanoid } from "nanoid";
+import { z } from "zod";
+import { djs, slots, users } from "../db/schema";
+import { adminProcedure, createTRPCRouter } from "./trpc";
 
-import { eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
+import { getDay, getHours } from "date-fns";
 
 export const adminRouter = createTRPCRouter({
   createDJ: adminProcedure
@@ -16,24 +17,81 @@ export const adminRouter = createTRPCRouter({
           id: "dj-" + nanoid(5),
         })
         .returning();
-      return result[0];
+      return result.at(0);
     }),
 
   linkDJ: adminProcedure
     .input(
       z.object({
-        userId: z.string(),
+        userEmail: z.string(),
         djId: z.string(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      // Make sure there is a matching email
+      const matching = await ctx.db
+        .select()
+        .from(users)
+        .where(eq(users.email, input.userEmail));
+      if (matching.length === 0) {
+        throw new Error("No user with that email");
+      }
+
       const result = await ctx.db
         .update(users)
         .set({
           djId: input.djId,
         })
-        .where(eq(users.id, input.userId))
+        .where(eq(users.email, input.userEmail))
         .returning();
       return result.at(0);
     }),
+
+  listDJs: adminProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db.select().from(djs);
+    return result;
+  }),
+
+  assignSlot: adminProcedure
+    .input(
+      z.object({
+        djId: z.string(),
+        time: z.date(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Make sure that the dj doesn't already have a slot
+      const result = await ctx.db
+        .insert(slots)
+        .values({
+          time: input.time,
+          djId: input.djId,
+          dayOfWeek: getDay(input.time),
+          hourOfDay: getHours(input.time),
+        })
+        .onConflictDoUpdate({
+          target: slots.djId,
+          set: {
+            time: input.time,
+          },
+        })
+        .returning();
+
+      return result;
+    }),
+
+  listDjSlots: adminProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db
+      .select({
+        djId: djs.id,
+        name: djs.name,
+        time: slots.time,
+      })
+      .from(djs)
+      .leftJoin(slots, eq(slots.djId, djs.id))
+      // Show null slots first
+      .orderBy(asc(slots.dayOfWeek), asc(slots.hourOfDay));
+
+    return result;
+  }),
 });

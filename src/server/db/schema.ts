@@ -12,7 +12,7 @@ import {
 import { type AdapterAccount } from "next-auth/adapters";
 
 export const djs = pgTable("dj", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey().unique(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
 });
 
@@ -20,6 +20,7 @@ export const djs = pgTable("dj", {
 export const djsRelations = relations(djs, ({ one, many }) => ({
   user: one(users, { fields: [djs.id], references: [users.djId] }),
   shows: many(shows),
+  slot: many(slots),
 }));
 
 export const shows = pgTable("show", {
@@ -49,6 +50,26 @@ export const shows = pgTable("show", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP(3)`),
 });
+
+export const slots = pgTable(
+  "slot",
+  {
+    djId: varchar("dj", { length: 255 })
+      .notNull()
+      .unique()
+      .references(() => djs.id),
+
+    dayOfWeek: integer("day_of_week").notNull(),
+    hourOfDay: integer("hour_of_day").notNull(),
+
+    time: timestamp("time", { withTimezone: true }).notNull(),
+  },
+  (t) => {
+    return {
+      pk: primaryKey(t.djId, t.time),
+    };
+  },
+);
 
 export const chatMessages = pgTable("chat_message", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -115,6 +136,10 @@ export const tracklistsRelations = relations(tracklists, ({ one }) => ({
 
 export const showRelations = relations(shows, ({ one }) => ({
   dj: one(djs, { fields: [shows.djId], references: [djs.id] }),
+}));
+
+export const slotRelations = relations(slots, ({ one }) => ({
+  dj: one(djs, { fields: [slots.djId], references: [djs.id] }),
 }));
 
 export const users = pgTable("user", {

@@ -11,12 +11,6 @@ const config = {
   ],
   prefix: "",
   theme: {
-    colors: {
-      bg: "#212121",
-      "card-bg": "#2e2e2e",
-      border: "#414141",
-      text: "#ffffff",
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -25,6 +19,13 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        bg: "#212121",
+        "card-bg": "#2e2e2e",
+        border: "#414141",
+        text: "#ffffff",
+        "input-bg": "#191919",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },

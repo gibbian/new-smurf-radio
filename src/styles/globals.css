@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: #212121;
+}
+
 @layer utilities {
   .debug {
     outline: 1px solid red;

@@ -54,7 +54,7 @@ export const MainLayout = ({
   return (
     <SessionProvider session={session}>
       <div className="min-h-screen bg-bg text-text">
-        <nav className="sticky top-0 flex items-center justify-between border-b border-[#939393] px-4 py-3 md:px-6">
+        <nav className="sticky top-0 flex items-center justify-between border-b border-[#939393] bg-bg px-4 py-3 md:px-6">
           <div className="text-[16px] font-semibold">SMURF RADIO</div>
           <div className="links hidden gap-7 py-2 md:flex">
             {links.map((link) => (

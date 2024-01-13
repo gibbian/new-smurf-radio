@@ -1,10 +1,21 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
-import { djs, slots, users } from "../db/schema";
+import { djs, shows, slots, users } from "../db/schema";
 import { adminProcedure, createTRPCRouter } from "./trpc";
 
-import { getDay, getHours } from "date-fns";
-import { asc, eq } from "drizzle-orm";
+import { addHours, addWeeks, getDay, getHours } from "date-fns";
+import {
+  InferInsertModel,
+  and,
+  asc,
+  eq,
+  getTableColumns,
+  gt,
+  isNotNull,
+  isNull,
+  lt,
+} from "drizzle-orm";
+import { getNextAvailableShowTimes } from "../helpers/time";
 
 export const adminRouter = createTRPCRouter({
   createDJ: adminProcedure
@@ -95,4 +106,72 @@ export const adminRouter = createTRPCRouter({
 
     return result;
   }),
+
+  listAllShows: adminProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db.select().from(shows).orderBy(shows.startTime);
+    return result;
+  }),
+
+  fillSchedule: adminProcedure.mutation(async ({ ctx }) => {
+    // Get a list of djs that don't have a slot in the next 7 days
+    const nextWeek = addWeeks(new Date(), 1);
+    const rightNow = new Date();
+    const result = await ctx.db
+      .select({
+        ...getTableColumns(djs),
+        slot: getTableColumns(slots),
+        show: getTableColumns(shows),
+      })
+      .from(djs)
+      .innerJoin(slots, eq(slots.djId, djs.id))
+      .leftJoin(
+        shows,
+        and(
+          eq(shows.djId, djs.id),
+          gt(shows.startTime, rightNow),
+          lt(shows.startTime, nextWeek),
+        ),
+      )
+      .where(and(isNotNull(slots.djId), isNull(shows.djId)));
+
+    const toInsert: InferInsertModel<typeof shows>[] = [];
+
+    for (const dj of result) {
+      const nextTime = (await getNextAvailableShowTimes(dj.id, 1))[0];
+      if (!nextTime) {
+        continue;
+      }
+
+      const oneHourLater = addHours(nextTime, 1);
+
+      toInsert.push({
+        id: "show-" + nanoid(5),
+        djId: dj.id,
+        djName: dj.name,
+        startTime: nextTime,
+        endTime: oneHourLater,
+      });
+    }
+
+    if (toInsert.length === 0) {
+      return [];
+    }
+
+    const insertedShows = await ctx.db
+      .insert(shows)
+      .values(toInsert)
+      .returning();
+
+    return insertedShows;
+  }),
+
+  deleteShow: adminProcedure
+    .input(z.object({ showId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .delete(shows)
+        .where(eq(shows.id, input.showId))
+        .returning();
+      return result;
+    }),
 });

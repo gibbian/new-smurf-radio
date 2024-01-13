@@ -36,7 +36,10 @@ export const getNextAvailableShowTimes = async (
   rightNow.setSeconds(0);
   rightNow.setMilliseconds(0);
 
-  let next = nextDay(rightNow, getDay(slotInfo.time) as Day);
+  let next = rightNow;
+  if (next.getDay() !== slotInfo.dayOfWeek) {
+    next = nextDay(next, slotInfo.dayOfWeek as Day);
+  }
 
   const results = [];
 

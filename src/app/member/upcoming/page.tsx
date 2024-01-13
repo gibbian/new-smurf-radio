@@ -18,7 +18,10 @@ export default async function () {
       <div className="flex flex-col gap-2">
         {upcomingShows.length === 0 && (
           <div className="grid min-h-[100px] place-items-center text-sm text-white/40">
-            You have no upcoming shows! Create one below!
+            You have no upcoming shows!
+            <form action={createShowAction}>
+              <Button className="w-full">New Show</Button>
+            </form>
           </div>
         )}
         {upcomingShows.map((show) => (
@@ -27,9 +30,11 @@ export default async function () {
           </Link>
         ))}
       </div>
-      <form action={createShowAction} className="mt-4">
-        <Button className="w-full">New Show</Button>
-      </form>
+      {upcomingShows.length !== 0 && (
+        <form action={createShowAction} className="mt-4">
+          <Button className="w-full">New Show</Button>
+        </form>
+      )}
     </div>
   );
 }

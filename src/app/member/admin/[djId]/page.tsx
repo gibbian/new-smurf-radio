@@ -1,5 +1,6 @@
 import { LinkEmail } from "~/components/admin/LinkEmail";
 import { QuickControlCard } from "~/components/admin/QuickControlCard";
+import { UpcomingShowCard } from "~/components/member/UpcomingShowCard";
 import { api } from "~/trpc/server";
 import { formatSlotFromDate } from "~/utils/time";
 
@@ -24,9 +25,9 @@ export default async function Page({ params }: { params: { djId: string } }) {
         </QuickControlCard>
       </div>
       <div>Shows</div>
-      <div>
+      <div className="flex flex-col gap-2">
         {details.shows.map((show) => (
-          <div>{show.id}</div>
+          <UpcomingShowCard show={show} key={show.id} />
         ))}
       </div>
     </div>

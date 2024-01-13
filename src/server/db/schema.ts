@@ -1,6 +1,8 @@
+import "server-only";
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,
+  boolean,
   index,
   integer,
   pgTable,
@@ -45,6 +47,8 @@ export const shows = pgTable("show", {
   }).notNull(),
 
   image: varchar("image", { length: 255 }),
+
+  published: boolean("published").default(true),
 
   lastSaved: timestamp("last_saved", {
     mode: "date",

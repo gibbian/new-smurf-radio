@@ -1,11 +1,11 @@
 import { addHours } from "date-fns";
 import { and, eq, gt } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { z } from "zod";
+import { editShowSchema } from "~/shared/schemas/editShow";
 import { djs, shows } from "../db/schema";
 import { getNextAvailableShowTimes } from "../helpers/time";
 import { createTRPCRouter, djProcedure } from "./trpc";
-import { editShowSchema } from "~/shared/schemas/editShow";
-import { z } from "zod";
 
 export const memberRouter = createTRPCRouter({
   createNewShow: djProcedure.mutation(async ({ ctx }) => {

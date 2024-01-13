@@ -31,7 +31,7 @@ export default function Page() {
     <div>
       <div>
         {shows.map((show) => (
-          <Card className="flex justify-between gap-2">
+          <Card key={show.id} className="flex justify-between gap-2">
             <div>
               <div>{show.djName}</div>
               <div>{show.title}</div>

@@ -4,7 +4,7 @@ import { api } from "~/trpc/server";
 export const DJList = async () => {
   const result = await api.admin.listDJs.query();
   return (
-    <div className="flex w-full gap-2 py-4">
+    <div className="grid grid-cols-2 gap-2 pb-4 md:grid-cols-4 xl:grid-cols-6">
       {result.map((dj) => (
         <Link
           href={`/member/admin/${dj.id}`}

@@ -25,6 +25,7 @@ const config = {
         border: "#414141",
         text: "#ffffff",
         "input-bg": "#191919",
+        "smu-red": "#CC0135",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],

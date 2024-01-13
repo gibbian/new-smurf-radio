@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { EditShowForm } from "~/components/member/EditShowForm";
 import { api } from "~/trpc/server";
 

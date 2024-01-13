@@ -8,11 +8,13 @@ import { type RouterOutputs } from "~/trpc/shared";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { useRouter } from "next/navigation";
 
 interface EditShowFormProps {
   initialData: RouterOutputs["shows"]["getShow"];
 }
 export const EditShowForm = ({ initialData }: EditShowFormProps) => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<z.infer<typeof editShowSchema>>({
     resolver: zodResolver(editShowSchema),
     defaultValues: {
@@ -21,12 +23,16 @@ export const EditShowForm = ({ initialData }: EditShowFormProps) => {
     },
   });
 
-  const editMutation = api.member.editShow.useMutation();
+  const editMutation = api.member.editShow.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const deleteMutation = api.member.deleteShow.useMutation({
     onSuccess: () => {
-      // Hard navigate to /member/upcomging
-      window.location.href = "/member/upcoming";
+      router.refresh();
+      router.push("/member/upcoming");
     },
   });
 

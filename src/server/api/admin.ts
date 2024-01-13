@@ -1,11 +1,10 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { djs, shows, slots, users } from "../db/schema";
-import { adminProcedure, createTRPCRouter } from "./trpc";
+import { adminProcedure, createTRPCRouter, djProcedure } from "./trpc";
 
 import { addHours, addWeeks, getDay, getHours } from "date-fns";
 import {
-  InferInsertModel,
   and,
   asc,
   eq,
@@ -14,7 +13,9 @@ import {
   isNotNull,
   isNull,
   lt,
+  type InferInsertModel,
 } from "drizzle-orm";
+import { getCurrentShow } from "../helpers/shows";
 import { getNextAvailableShowTimes } from "../helpers/time";
 
 export const adminRouter = createTRPCRouter({
@@ -174,4 +175,36 @@ export const adminRouter = createTRPCRouter({
         .returning();
       return result;
     }),
+
+  goLive: adminProcedure.mutation(async ({ ctx }) => {
+    const possibleCurrent = await getCurrentShow();
+    if (possibleCurrent) {
+      throw new Error("There is already a show live");
+    }
+    const now = new Date();
+    // Round down now to the nearest hour
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+
+    const dj = await ctx.db
+      .select()
+      .from(djs)
+      .where(eq(djs.id, ctx.session.user.djId))
+      .then((r) => r.at(0));
+
+    if (!dj) {
+      throw new Error("No DJ found");
+    }
+
+    const result = await ctx.db.insert(shows).values({
+      id: "ls-" + nanoid(5),
+      startTime: now,
+      djId: ctx.session.user.djId,
+      endTime: addHours(now, 1),
+      djName: dj.name,
+    });
+
+    return result;
+  }),
 });

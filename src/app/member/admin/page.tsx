@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AddDJ } from "~/components/admin/AddDJ";
 import { CreateSlot } from "~/components/admin/CreateSlot";
 import { DJList } from "~/components/admin/DJList";
-import { FillSchedule } from "~/components/admin/FillSchedule";
+import { RandomButtons } from "~/components/admin/RandomButtons";
 import { QuickControlCard } from "~/components/admin/QuickControlCard";
 
 export default async function () {
@@ -21,7 +21,7 @@ export default async function () {
           <CreateSlot />
         </QuickControlCard>
         <QuickControlCard>
-          <FillSchedule />
+          <RandomButtons />
         </QuickControlCard>
         <QuickControlCard>
           <Link href={"/member/admin/showlist"}>Show List</Link>

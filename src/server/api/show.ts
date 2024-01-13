@@ -1,7 +1,16 @@
+import { eq, gt } from "drizzle-orm";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "./trpc";
 import { shows } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { getCurrentShow } from "../helpers/shows";
+import { createTRPCRouter, publicProcedure } from "./trpc";
+
+// NOTE: will maybe use in the future
+// const showWithNameCol = () => {
+//   return {
+//     ...getTableColumns(shows),
+//     djName: djs.name,
+//   };
+// };
 
 export const showRouter = createTRPCRouter({
   getShow: publicProcedure
@@ -20,4 +29,17 @@ export const showRouter = createTRPCRouter({
 
       return result;
     }),
+
+  getLiveShow: publicProcedure.query(async () => {
+    return await getCurrentShow();
+  }),
+
+  getSchedule: publicProcedure.query(async ({ ctx }) => {
+    const now = new Date();
+    const result = await ctx.db
+      .select()
+      .from(shows)
+      .where(gt(shows.startTime, now));
+    return result;
+  }),
 });

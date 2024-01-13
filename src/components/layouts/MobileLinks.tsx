@@ -43,6 +43,7 @@ export const MobileLinks = ({ links }: { links: LinkType[] }) => {
             >
               <FontAwesomeIcon size="lg" icon={faClose}></FontAwesomeIcon>
             </div>
+            <div className=""></div>
           </div>,
           document.body,
         )}

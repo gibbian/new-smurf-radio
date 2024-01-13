@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Card } from "~/components/Card";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
@@ -37,12 +38,17 @@ export default function Page() {
               <div>{show.title}</div>
               <div>{show.startTime.toLocaleString()}</div>
             </div>
-            <Button
-              onClick={() => deleteShowMuatation.mutate({ showId: show.id })}
-              variant="destructive"
-            >
-              Delete
-            </Button>
+            <div className="flex gap-2">
+              <Link href={`/member/edit/${show.id}`}>
+                <Button>Edit</Button>
+              </Link>
+              <Button
+                onClick={() => deleteShowMuatation.mutate({ showId: show.id })}
+                variant="destructive"
+              >
+                Delete
+              </Button>
+            </div>
           </Card>
         ))}
       </div>

@@ -21,7 +21,7 @@ export function TRPCReactProvider(props: {
       new QueryClient({
         defaultOptions: {
           mutations: {
-            onSettled(data, error, variables, context) {
+            onSettled() {
               router.refresh();
             },
           },

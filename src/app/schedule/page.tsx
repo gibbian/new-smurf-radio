@@ -1,4 +1,4 @@
-import { format, getDayOfYear } from "date-fns";
+import { format } from "date-fns";
 import { ShowInfo } from "~/components/ShowInfo";
 import { api } from "~/trpc/server";
 
@@ -11,7 +11,7 @@ export default async function Page() {
   const groupedShows = shows.reduce(
     // TODO: Refactor for new years
     (acc, show) => {
-      const key = getDayOfYear(show.startTime);
+      const key = format(show.startTime, "yds");
       if (!acc[key]) {
         acc[key] = [];
       }
@@ -25,14 +25,15 @@ export default async function Page() {
   );
 
   return (
-    <div>
-      <div>
+    <main>
+      <div className="text-lg font-semibold">Schedule</div>
+      <div className="m-auto flex max-w-[600px] flex-col gap-8">
         {Object.entries(groupedShows).map(([key, shows]) => (
           <div key={key}>
-            <div className="text-[15px] font-medium">
+            <div className="mb-1 text-[20px] font-semibold">
               {format(shows[0]!.startTime, "EEEE, LLL d")}
             </div>
-            <div>
+            <div className="flex flex-col gap-1">
               {shows.map((show) => (
                 <ShowInfo show={show}></ShowInfo>
               ))}
@@ -40,6 +41,6 @@ export default async function Page() {
           </div>
         ))}
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { api } from "~/trpc/react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";

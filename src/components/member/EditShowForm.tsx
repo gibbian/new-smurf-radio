@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { type z } from "zod";
 import { editShowSchema } from "~/shared/schemas/editShow";

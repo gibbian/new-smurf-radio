@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LinkEmail } from "~/components/admin/LinkEmail";
 import { QuickControlCard } from "~/components/admin/QuickControlCard";
 import { UpcomingShowCard } from "~/components/member/UpcomingShowCard";
@@ -27,7 +28,9 @@ export default async function Page({ params }: { params: { djId: string } }) {
       <div>Shows</div>
       <div className="flex flex-col gap-2">
         {details.shows.map((show) => (
-          <UpcomingShowCard show={show} key={show.id} />
+          <Link href={`/member/edit/${show.id}`}>
+            <UpcomingShowCard show={show} key={show.id} />
+          </Link>
         ))}
       </div>
     </div>

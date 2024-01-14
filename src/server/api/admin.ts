@@ -103,7 +103,7 @@ export const adminRouter = createTRPCRouter({
       })
       .from(djs)
       .leftJoin(slots, eq(slots.djId, djs.id))
-      .orderBy(asc(slots.dayOfWeek));
+      .orderBy(asc(slots.dayOfWeek), asc(slots.time));
 
     return result;
   }),
@@ -253,4 +253,12 @@ export const adminRouter = createTRPCRouter({
         .then((r) => r.at(0));
       return result;
     }),
+
+  userEmails: adminProcedure.query(async ({ ctx }) => {
+    const emails = await ctx.db
+      .select({ email: users.email })
+      .from(users)
+      .then((r) => r.map((u) => u.email));
+    return emails.sort();
+  }),
 });

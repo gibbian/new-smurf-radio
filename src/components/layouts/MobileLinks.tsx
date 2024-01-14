@@ -2,14 +2,22 @@
 
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { type Session } from "next-auth";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { type Link as LinkType } from "./MainLayout";
 import { createPortal } from "react-dom";
 import { twMerge } from "tailwind-merge";
-import { usePathname } from "next/navigation";
+import { type Link as LinkType } from "./MainLayout";
 
-export const MobileLinks = ({ links }: { links: LinkType[] }) => {
+export const MobileLinks = ({
+  links,
+  session,
+}: {
+  links: LinkType[];
+  session: Session | null;
+}) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -37,9 +45,24 @@ export const MobileLinks = ({ links }: { links: LinkType[] }) => {
                 {link.label.toUpperCase()}
               </Link>
             ))}
+            {session?.user ? (
+              <div
+                onClick={() => signOut()}
+                className="cursor-pointer text-sm font-semibold uppercase"
+              >
+                Sign Out
+              </div>
+            ) : (
+              <div
+                onClick={() => signIn("google")}
+                className="cursor-pointer text-sm font-semibold uppercase"
+              >
+                Sign In
+              </div>
+            )}
             <div
               onClick={() => setOpen(false)}
-              className="absolute right-4 top-4"
+              className="absolute right-4 top-4 cursor-pointer"
             >
               <FontAwesomeIcon size="lg" icon={faClose}></FontAwesomeIcon>
             </div>

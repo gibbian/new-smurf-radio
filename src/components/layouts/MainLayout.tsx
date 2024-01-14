@@ -19,36 +19,6 @@ export const MainLayout = ({
   session: Session | null;
 }) => {
   const pathname = usePathname();
-  const links: Link[] = [
-    {
-      href: "/",
-      label: "Home",
-    },
-    {
-      href: "/schedule",
-      label: "Schedule",
-    },
-    {
-      href: "/stream",
-      label: "Stream",
-    },
-    // TODO: Add archive
-  ];
-
-  if (session?.user.djId) {
-    links.push({
-      href: "/member/upcoming",
-      label: "Member",
-    });
-  }
-
-  if (!session?.user) {
-    links.push({
-      href: "/api/auth/signin/google",
-      label: "Sign in",
-    });
-  }
-
   return (
     <SessionProvider session={session}>
       <div className="min-h-screen bg-bg text-text">

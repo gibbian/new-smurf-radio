@@ -39,7 +39,9 @@ export default function ({ children }: { children: ReactNode }) {
             key={link.href}
             className={twMerge(
               "text-sm font-semibold uppercase",
-              pathname === link.href ? "underline decoration-2" : undefined,
+              pathname.includes(link.href)
+                ? "underline decoration-2"
+                : undefined,
             )}
             href={link.href}
           >

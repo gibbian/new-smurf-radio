@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { AddDJ } from "~/components/admin/AddDJ";
+import { CreateShowManual } from "~/components/admin/CreateShowManual";
 import { CreateSlot } from "~/components/admin/CreateSlot";
 import { DJList } from "~/components/admin/DJList";
-import { RandomButtons } from "~/components/admin/RandomButtons";
 import { QuickControlCard } from "~/components/admin/QuickControlCard";
+import { RandomButtons } from "~/components/admin/RandomButtons";
 
 export default async function () {
   return (
@@ -20,11 +20,11 @@ export default async function () {
         <QuickControlCard title="Slots" className="col-span-3">
           <CreateSlot />
         </QuickControlCard>
-        <QuickControlCard>
-          <RandomButtons />
+        <QuickControlCard className="col-span-3" title="Create Show Manually">
+          <CreateShowManual />
         </QuickControlCard>
         <QuickControlCard>
-          <Link href={"/member/admin/showlist"}>Show List</Link>
+          <RandomButtons />
         </QuickControlCard>
       </div>
     </>

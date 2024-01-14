@@ -119,7 +119,7 @@ const DaySelect = (props: DaySelectProps) => {
   );
 };
 
-const TimeSelect = (props: DaySelectProps) => {
+export const TimeSelect = (props: DaySelectProps) => {
   return (
     <Select
       value={props.value.toString()}

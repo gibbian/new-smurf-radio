@@ -2,6 +2,7 @@
 import { api } from "~/trpc/react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export const RandomButtons = () => {
   const utils = api.useUtils();
@@ -22,7 +23,7 @@ export const RandomButtons = () => {
   });
 
   return (
-    <div>
+    <div className="flex flex-wrap items-center justify-center">
       <Button
         disabled={fillScheduleMutation.isLoading}
         onClick={() => fillScheduleMutation.mutate()}
@@ -34,6 +35,9 @@ export const RandomButtons = () => {
         onClick={() => goLiveMutation.mutate()}
       >
         Go Live
+      </Button>
+      <Button>
+        <Link href={"/member/admin/showlist"}>Show List</Link>
       </Button>
     </div>
   );

@@ -1,16 +1,10 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { MainLayout } from "~/components/layouts/MainLayout";
 import { getServerAuthSession } from "~/server/auth";
 import { TRPCReactProvider } from "~/trpc/react";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "SMURF Radio",
@@ -27,7 +21,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body>
         <TRPCReactProvider cookies={cookies().toString()}>
           <MainLayout session={session}>{children}</MainLayout>
         </TRPCReactProvider>

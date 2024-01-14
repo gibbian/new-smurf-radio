@@ -207,4 +207,50 @@ export const adminRouter = createTRPCRouter({
 
     return result;
   }),
+
+  createManualShow: adminProcedure
+    .input(
+      z.object({
+        djId: z.string(),
+        startTime: z.date(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      input.startTime.setSeconds(0);
+      input.startTime.setMilliseconds(0);
+
+      // Make sure there isn't already a show at this time
+      const existing = await ctx.db
+        .select()
+        .from(shows)
+        .where(eq(shows.startTime, input.startTime))
+        .then((r) => r.at(0));
+
+      if (existing) {
+        throw new Error("There is already a show at that time");
+      }
+
+      const dj = await ctx.db
+        .select()
+        .from(djs)
+        .where(eq(djs.id, input.djId))
+        .then((r) => r.at(0));
+
+      if (!dj) {
+        throw new Error("No DJ found");
+      }
+
+      const result = await ctx.db
+        .insert(shows)
+        .values({
+          id: "ms-" + nanoid(5),
+          startTime: input.startTime,
+          djId: input.djId,
+          djName: dj.name,
+          endTime: addHours(input.startTime, 1),
+        })
+        .returning()
+        .then((r) => r.at(0));
+      return result;
+    }),
 });

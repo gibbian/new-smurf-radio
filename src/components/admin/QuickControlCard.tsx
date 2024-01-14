@@ -14,8 +14,13 @@ export const QuickControlCard = async ({
   className,
 }: QuickControlCardProps) => {
   return (
-    <div className={twMerge("border border-border bg-card-bg p-4", className)}>
-      {title && <div className="text-lg">{title}</div>}
+    <div
+      className={twMerge(
+        "overflow-auto border border-border bg-card-bg p-4",
+        className,
+      )}
+    >
+      {title && <div className="text-[16px]">{title}</div>}
       {description && <div className="text-sm text-text/75">{description}</div>}
       {title && description ? <div className="p-2"></div> : null}
       {children}

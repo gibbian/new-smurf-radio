@@ -35,7 +35,7 @@ export const shows = pgTable("show", {
 
   djId: varchar("dj", { length: 255 })
     .notNull()
-    .references(() => djs.id),
+    .references(() => djs.id, { onDelete: "cascade" }),
 
   // Shortcut to prevent a join on every show fetch
   djName: varchar("dj_name", { length: 255 }).notNull(),
@@ -64,7 +64,7 @@ export const slots = pgTable(
     djId: varchar("dj", { length: 255 })
       .notNull()
       .unique()
-      .references(() => djs.id),
+      .references(() => djs.id, { onDelete: "cascade", onUpdate: "cascade" }),
 
     dayOfWeek: integer("day_of_week").notNull(),
     hourOfDay: integer("hour_of_day").notNull(),
@@ -160,6 +160,7 @@ export const users = pgTable("user", {
   accessLevel: integer("accessLevel").default(0),
   djId: varchar("dj_id", { length: 255 }).references(() => djs.id, {
     onDelete: "set null",
+    onUpdate: "cascade",
   }),
 });
 

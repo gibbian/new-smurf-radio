@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
 import { Card } from "../Card";
+import { GenreList } from "../small/GenreList";
 
 interface UpcomingShowCardProps {
   show: InferSelectModel<typeof shows>;
@@ -15,8 +16,13 @@ export const UpcomingShowCard = ({ show }: UpcomingShowCardProps) => {
         </div>
         <div>Published</div>
       </div>
-      <div className="text-[16px] font-semibold">{show.title}</div>
-      <div className="text-[12px] text-white/70">{show.description}</div>
+      {show.title && (
+        <div className="text-[16px] font-semibold">{show.title}</div>
+      )}
+      {show.description && (
+        <div className="text-[12px] text-white/70">{show.description}</div>
+      )}
+      <GenreList genres={show.genres}></GenreList>
     </Card>
   );
 };

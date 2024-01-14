@@ -9,10 +9,10 @@ import { DJSelect } from "./DJPicker";
 
 export const CreateShowManual = () => {
   const createShowMutation = api.admin.createManualShow.useMutation({
-    onError(error, variables, context) {
+    onError(error) {
       toast.error(error.message);
     },
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       toast(
         `Created show for ${data?.djName} at ${data?.startTime.toLocaleString()}`,
       );

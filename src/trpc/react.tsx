@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { type AppRouter } from "~/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { useRouter } from "next/navigation";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -14,7 +15,19 @@ export function TRPCReactProvider(props: {
   children: React.ReactNode;
   cookies: string;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const router = useRouter();
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          mutations: {
+            onSettled(data, error, variables, context) {
+              router.refresh();
+            },
+          },
+        },
+      }),
+  );
 
   const [trpcClient] = useState(() =>
     api.createClient({

@@ -73,7 +73,8 @@ export const memberRouter = createTRPCRouter({
           eq(shows.djId, ctx.session.user.djId),
           gt(shows.startTime, thisMorning),
         ),
-      );
+      )
+      .orderBy(shows.startTime);
     return result;
   }),
 

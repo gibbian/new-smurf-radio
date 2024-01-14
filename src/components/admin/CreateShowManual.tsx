@@ -43,7 +43,7 @@ export const CreateShowManual = () => {
       <DJSelect value={dj} onChange={setDj} />
       <DatePicker value={day} onChange={setDay} />
       <TimeSelect value={hour} setValue={setHour} />
-      <Button disabled={createShowMutation.isLoading} type="submit">
+      <Button disabled={createShowMutation.isLoading || !dj} type="submit">
         Submit
       </Button>
     </form>

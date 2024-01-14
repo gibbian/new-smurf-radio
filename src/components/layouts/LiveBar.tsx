@@ -19,7 +19,7 @@ export const LiveBar = () => {
   }
 
   return (
-    <div className="flex items-center justify-between gap-7 border-b border-[#939393] px-6 py-[7px] md:justify-start ">
+    <div className="flex items-center justify-between gap-7 border-b border-[#939393] bg-bg px-6 py-[7px] md:justify-start ">
       <LiveIndicator />
       <div className="flex items-center gap-4">
         <div className="text-[14px] font-bold">{possibleLive?.djName}</div>

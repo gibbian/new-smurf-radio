@@ -36,6 +36,7 @@ export const showRouter = createTRPCRouter({
 
   getSchedule: publicProcedure.query(async ({ ctx }) => {
     const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const result = await ctx.db
       .select()
       .from(shows)

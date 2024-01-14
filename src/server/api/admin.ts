@@ -161,6 +161,9 @@ export const adminRouter = createTRPCRouter({
     const insertedShows = await ctx.db
       .insert(shows)
       .values(toInsert)
+      .onConflictDoNothing({
+        target: shows.startTime,
+      })
       .returning();
 
     return insertedShows;

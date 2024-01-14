@@ -25,7 +25,7 @@ export default async function () {
           </div>
         )}
         {upcomingShows.map((show) => (
-          <Link href={`/member/edit/${show.id}`}>
+          <Link key={show.id} href={`/member/edit/${show.id}`}>
             <UpcomingShowCard key={show.id} show={show} />
           </Link>
         ))}

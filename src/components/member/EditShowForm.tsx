@@ -1,5 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -11,7 +12,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { format } from "date-fns";
 
 interface EditShowFormProps {
   initialData: RouterOutputs["shows"]["getShow"];
@@ -109,10 +109,10 @@ export const GenrePicker = ({ value, onChange }: GenrePickerProps) => {
   return (
     <div>
       <Label>Genres</Label>
-      <div className="mt-1 flex items-start gap-4">
+      <div className="mt-1 flex flex-wrap items-start gap-2">
         {value?.map((genre) => (
           <div
-            className="rounded-full border border-border bg-bg p-1 px-2 text-sm hover:line-through"
+            className="cursor-pointer whitespace-nowrap rounded-full border border-border bg-bg p-1 px-2 text-sm hover:line-through"
             onClick={() => {
               onChange(value?.filter((g) => g !== genre));
             }}
@@ -128,7 +128,7 @@ export const GenrePicker = ({ value, onChange }: GenrePickerProps) => {
               setInput("");
             }
           }}
-          className="border border-border bg-input-bg p-1 text-sm placeholder:text-white/50 focus-visible:outline-none"
+          className="rounded-full border border-border bg-input-bg p-1 pl-3 text-sm placeholder:text-white/50 focus-visible:outline-none"
           value={input}
           onChange={(e) => {
             setInput(e.target.value);

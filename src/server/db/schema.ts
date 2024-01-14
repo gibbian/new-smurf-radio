@@ -1,4 +1,3 @@
-import "server-only";
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,
@@ -16,6 +15,10 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const djs = pgTable("dj", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
+
+  joined: timestamp("joined", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 // This will be super important

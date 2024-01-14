@@ -9,7 +9,7 @@ export const DJList = async () => {
         <Link
           href={`/member/admin/${dj.id}`}
           key={dj.id}
-          className="border border-border bg-card-bg p-2 text-text/80"
+          className="border border-border bg-card-bg p-2 text-sm text-text/80"
         >
           {dj.name}
         </Link>

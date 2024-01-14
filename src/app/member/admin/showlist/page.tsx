@@ -1,4 +1,5 @@
 "use client";
+import { format } from "date-fns";
 import Link from "next/link";
 import { Card } from "~/components/Card";
 import { Button } from "~/components/ui/button";
@@ -36,7 +37,7 @@ export default function Page() {
             <div>
               <div>{show.djName}</div>
               <div>{show.title}</div>
-              <div>{show.startTime.toLocaleString()}</div>
+              <div>{format(show.startTime, "h aa - EEEE, MMM d")}</div>
             </div>
             <div className="flex gap-2">
               <Link href={`/member/edit/${show.id}`}>

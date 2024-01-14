@@ -1,3 +1,4 @@
+"use client";
 import { cva } from "class-variance-authority";
 import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";

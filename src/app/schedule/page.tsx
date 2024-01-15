@@ -26,7 +26,7 @@ export default async function Page() {
 
   return (
     <main>
-      <div className="text-lg font-semibold">Schedule</div>
+      <div className="mb-4 text-lg font-semibold">Schedule</div>
       <div className="m-auto flex max-w-[600px] flex-col gap-8">
         {Object.entries(groupedShows).map(([key, shows]) => (
           <div key={key}>
@@ -35,7 +35,11 @@ export default async function Page() {
             </div>
             <div className="flex flex-col gap-1">
               {shows.map((show) => (
-                <ShowInfo show={show}></ShowInfo>
+                <ShowInfo
+                  fillBg={false}
+                  variant="compact"
+                  show={show}
+                ></ShowInfo>
               ))}
             </div>
           </div>

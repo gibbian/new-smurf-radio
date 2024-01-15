@@ -1,15 +1,29 @@
+import { cva } from "class-variance-authority";
+
 interface GenreListProps {
   genres?: string[] | null;
+  variant?: "bold" | "subtle";
 }
-export const GenreList = ({ genres }: GenreListProps) => {
+export const GenreList = ({ genres, variant }: GenreListProps) => {
   if (!genres) return null;
+  const bubbleClass = cva(
+    "cursor-pointer whitespace-nowrap rounded-full text-sm shadow-sm",
+    {
+      variants: {
+        variant: {
+          bold: "border-white/25 bg-card-bg border px-2 p-1",
+          subtle: "text-white/80",
+        },
+      },
+      defaultVariants: {
+        variant: "subtle",
+      },
+    },
+  );
   return (
-    <div className="mt-1 flex flex-wrap items-start gap-2">
+    <div className="mt-1 flex flex-wrap items-start gap-6">
       {genres?.map((genre) => (
-        <div
-          className="cursor-pointer whitespace-nowrap rounded-full border border-white/25 bg-card-bg p-1 px-2 text-sm shadow-sm"
-          key={genre}
-        >
+        <div className={bubbleClass({ variant })} key={genre}>
           {genre}
         </div>
       ))}

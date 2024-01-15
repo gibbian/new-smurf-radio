@@ -3,6 +3,7 @@ import { cva } from "class-variance-authority";
 import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
+import { GenreList } from "./small/GenreList";
 
 interface ShowInfoProps {
   show: InferSelectModel<typeof shows>;
@@ -11,16 +12,16 @@ interface ShowInfoProps {
   showDate?: boolean;
 }
 
-export const ShowInfo = ({ show, fillBg, variant }: ShowInfoProps) => {
-  const outer = cva("border flex-col flex gap-4 border-border p-4", {
+export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
+  const outer = cva("border flex-col flex border-border", {
     variants: {
       variant: {
-        full: "",
-        compact: "",
+        full: "gap-3 p-4",
+        compact: "gap-1 p-3",
       },
       fillBg: {
         true: "bg-card-bg",
-        false: "bg-transparent",
+        false: "bg-transparent border-2",
       },
     },
 
@@ -33,12 +34,31 @@ export const ShowInfo = ({ show, fillBg, variant }: ShowInfoProps) => {
   return (
     <div className={outer({ fillBg, variant })}>
       <div className="flex w-full items-baseline justify-between">
-        <div className="text-[16px] font-bold">{show.djName}</div>
+        <div className="flex gap-10">
+          <div className="text-[16px] font-bold">{show.djName}</div>
+          {variant == "compact" && (
+            <div className="text-[16px] font-medium text-white/40">
+              {show.title}
+            </div>
+          )}
+        </div>
         <div className="text-[14px]">
           {format(show.startTime, "haa")} - {format(show.endTime, "haa")}
         </div>
       </div>
-      {show.title && <div className="text-lg">{show.title}</div>}
+      {variant == "full" && (
+        <div>
+          {show.title && <div className="text-lg">{show.title}</div>}
+          {show.description && (
+            <div className="text-[14px]">{show.description}</div>
+          )}
+        </div>
+      )}
+      {variant == "full" ? (
+        <GenreList variant="subtle" genres={show.genres} />
+      ) : (
+        <div className="text-[14px] text-white/80">{show.description}</div>
+      )}
     </div>
   );
 };

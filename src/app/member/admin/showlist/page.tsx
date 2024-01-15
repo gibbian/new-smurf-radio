@@ -9,7 +9,7 @@ export default function Page() {
   const { data: shows, refetch } = api.admin.listAllShows.useQuery();
   const utils = api.useUtils();
   const deleteShowMuatation = api.admin.deleteShow.useMutation({
-    async onSuccess(data, variables, context) {
+    async onSuccess() {
       await refetch();
     },
 

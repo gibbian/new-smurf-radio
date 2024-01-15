@@ -35,7 +35,7 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
 
   return (
     <div className={outer({ fillBg, variant })}>
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between gap-8">
         <div className="flex gap-10">
           <div className="text-[16px] font-bold">{show.djName}</div>
           {variant == "compact" && (

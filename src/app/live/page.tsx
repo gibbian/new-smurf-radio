@@ -1,5 +1,5 @@
 import { LiveView } from "~/components/views/LiveView";
-import { OfflineView } from "~/components/views/OfflineView";
+import OfflineView from "~/components/views/OfflineView";
 import { api } from "~/trpc/server";
 
 export default async function Page() {

@@ -1,8 +1,9 @@
-import { eq, gt } from "drizzle-orm";
+import { and, eq, gt, lt } from "drizzle-orm";
 import { z } from "zod";
 import { shows } from "../db/schema";
 import { getCurrentShow } from "../helpers/shows";
 import { createTRPCRouter, publicProcedure } from "./trpc";
+import { addDays } from "date-fns";
 
 // NOTE: will maybe use in the future
 // const showWithNameCol = () => {
@@ -40,7 +41,39 @@ export const showRouter = createTRPCRouter({
     const result = await ctx.db
       .select()
       .from(shows)
-      .where(gt(shows.startTime, now));
+      .where(gt(shows.startTime, now))
+      .orderBy(shows.startTime);
+    return result;
+  }),
+
+  getNextShow: publicProcedure.query(async ({ ctx }) => {
+    const nextShow = await ctx.db
+      .select()
+      .from(shows)
+      .where(
+        and(gt(shows.startTime, new Date()), gt(shows.endTime, new Date())),
+      )
+      .then((result) => result.at(0));
+    return nextShow;
+  }),
+
+  nextShowsForToday: publicProcedure.query(async ({ ctx }) => {
+    const tomorrowMorning = new Date();
+    tomorrowMorning.setHours(0, 0, 0, 0);
+    addDays(tomorrowMorning, 1);
+    const result = await ctx.db
+      .select()
+      .from(shows)
+      .where(
+        and(
+          gt(shows.startTime, new Date()),
+          gt(shows.endTime, new Date()),
+          lt(shows.startTime, tomorrowMorning),
+        ),
+      )
+      .orderBy(shows.startTime)
+      .limit(3);
+
     return result;
   }),
 });

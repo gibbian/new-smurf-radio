@@ -3,6 +3,7 @@
 import { type RouterOutputs } from "~/trpc/shared";
 import { ShowInfo } from "../ShowInfo";
 import { Chat } from "../chat/Chat";
+import { SlimShowInfo } from "../SlimShowInfo";
 
 interface LiveViewProps {
   payload: NonNullable<RouterOutputs["live"]["getLivePayload"]>;
@@ -12,9 +13,13 @@ export const LiveView = ({ payload }: LiveViewProps) => {
   return (
     <div className="grid flex-1 grid-cols-[1fr_400px] gap-6">
       <div className="">
-        <ShowInfo show={payload}></ShowInfo>
+        <ShowInfo show={payload.currentShow}></ShowInfo>
+        <div>Next Up...</div>
+        {payload.nextShows.map((show) => (
+          <SlimShowInfo key={show.id} show={show} />
+        ))}
       </div>
-      <Chat />
+      <Chat showId={payload.currentShow.id} />
     </div>
   );
 };

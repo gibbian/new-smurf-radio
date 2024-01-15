@@ -9,7 +9,6 @@ export default async function Page() {
 
   // Group shows by startDate
   const groupedShows = shows.reduce(
-    // TODO: Refactor for new years
     (acc, show) => {
       const key = format(show.startTime, "yds");
       if (!acc[key]) {

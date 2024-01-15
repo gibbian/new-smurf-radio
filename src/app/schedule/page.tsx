@@ -5,8 +5,6 @@ import { api } from "~/trpc/server";
 export default async function Page() {
   const shows = await api.shows.getSchedule.query();
 
-  console.log(shows);
-
   // Group shows by startDate
   const groupedShows = shows.reduce(
     (acc, show) => {

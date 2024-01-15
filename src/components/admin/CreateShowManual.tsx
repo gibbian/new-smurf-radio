@@ -39,7 +39,10 @@ export const CreateShowManual = () => {
   const [hour, setHour] = useState(0);
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 pt-2">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-2 pt-2 md:flex-row"
+    >
       <DJSelect value={dj} onChange={setDj} />
       <DatePicker value={day} onChange={setDay} />
       <TimeSelect value={hour} setValue={setHour} />

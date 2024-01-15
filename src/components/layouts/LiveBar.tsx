@@ -7,7 +7,7 @@ import { lightFormat } from "date-fns";
 export const LiveBar = () => {
   const { data: possibleLive, status } = api.shows.getLiveShow.useQuery(
     undefined,
-    { refetchInterval: 5000, enabled: false },
+    { refetchInterval: 5000 },
   );
 
   if (status != "success") {

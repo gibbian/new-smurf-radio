@@ -32,25 +32,32 @@ export default function Page() {
   return (
     <div>
       <div>
-        {shows.map((show) => (
-          <Card key={show.id} className="flex justify-between gap-2">
-            <div>
-              <div>{show.djName}</div>
-              <div>{show.title}</div>
-              <div>{format(show.startTime, "h aa - EEEE, MMM d")}</div>
-            </div>
-            <div className="flex gap-2">
-              <Link href={`/member/edit/${show.id}`}>
-                <Button>Edit</Button>
-              </Link>
-              <Button
-                onClick={() => deleteShowMuatation.mutate({ showId: show.id })}
-                variant="destructive"
-              >
-                Delete
-              </Button>
-            </div>
-          </Card>
+        {shows.map((show, index) => (
+          <>
+            {/*Show a hr for the current time*/}
+            {shows.findIndex((show) => show.endTime > new Date()) === index &&
+              index !== 0 && <hr className="my-2 border-t-2 border-border" />}
+            <Card key={show.id} className="flex justify-between gap-2">
+              <div>
+                <div>{show.djName}</div>
+                <div>{show.title}</div>
+                <div>{format(show.startTime, "h aa - EEEE, MMM d")}</div>
+              </div>
+              <div className="flex gap-2">
+                <Link href={`/member/edit/${show.id}`}>
+                  <Button>Edit</Button>
+                </Link>
+                <Button
+                  onClick={() =>
+                    deleteShowMuatation.mutate({ showId: show.id })
+                  }
+                  variant="destructive"
+                >
+                  Delete
+                </Button>
+              </div>
+            </Card>
+          </>
         ))}
       </div>
     </div>

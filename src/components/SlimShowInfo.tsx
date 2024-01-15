@@ -3,7 +3,6 @@ import { cva } from "class-variance-authority";
 import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
-import { GenreList } from "./small/GenreList";
 
 interface ShowInfoProps {
   show: InferSelectModel<typeof shows>;

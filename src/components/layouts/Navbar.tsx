@@ -20,7 +20,7 @@ export const Navbar = ({ session }: { session: Session | null }) => {
       label: "Schedule",
     },
     {
-      href: "/stream",
+      href: "/live",
       label: "Stream",
     },
     // TODO: Add archive

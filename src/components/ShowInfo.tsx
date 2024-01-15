@@ -5,6 +5,7 @@ import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
 import { GenreList } from "./small/GenreList";
 import { LiveIndicator } from "./small/LiveIndicator";
+import { cn } from "~/utils";
 
 interface ShowInfoProps {
   show: InferSelectModel<typeof shows>;
@@ -34,7 +35,7 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
 
   return (
     <div className={outer({ fillBg, variant })}>
-      <div className="flex w-full items-baseline justify-between">
+      <div className="flex w-full items-center justify-between">
         <div className="flex gap-10">
           <div className="text-[16px] font-bold">{show.djName}</div>
           {variant == "compact" && (
@@ -54,7 +55,7 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
         </div>
       </div>
       {variant == "full" && (
-        <div>
+        <div className={cn(!show.title && !show.description && "hidden")}>
           {show.title && <div className="text-lg">{show.title}</div>}
           {show.description && (
             <div className="text-[14px]">{show.description}</div>

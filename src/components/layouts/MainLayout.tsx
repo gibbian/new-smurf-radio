@@ -21,9 +21,11 @@ export const MainLayout = ({
   const pathname = usePathname();
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen bg-bg text-text">
+      <div className="flex min-h-screen flex-col bg-bg text-text">
         <Navbar session={session}></Navbar>
-        <main className="p-4 text-text md:p-6">{children}</main>
+        <main className="flex h-full flex-1 flex-col p-4 text-text md:p-6">
+          {children}
+        </main>
         <Toaster />
       </div>
     </SessionProvider>

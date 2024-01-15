@@ -1,12 +1,12 @@
 "use client";
 import { type Session } from "next-auth";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { LiveBar } from "./LiveBar";
 import { type Link as LinkType } from "./MainLayout";
 import { MobileLinks } from "./MobileLinks";
-import { LiveBar } from "./LiveBar";
-import { signIn, signOut } from "next-auth/react";
 
 export const Navbar = ({ session }: { session: Session | null }) => {
   const pathname = usePathname();

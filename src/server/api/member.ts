@@ -38,6 +38,9 @@ export const memberRouter = createTRPCRouter({
         endTime: oneHourLater,
         djName: dj.name,
       })
+      .onConflictDoNothing({
+        target: shows.startTime,
+      })
       .returning()
       .then((r) => r.at(0));
     if (!result) {

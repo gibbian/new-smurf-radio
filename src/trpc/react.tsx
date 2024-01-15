@@ -8,6 +8,7 @@ import { useState } from "react";
 import { type AppRouter } from "~/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -23,6 +24,9 @@ export function TRPCReactProvider(props: {
           mutations: {
             onSettled() {
               router.refresh();
+            },
+            onError(error, variables, context) {
+              toast.error("There was an error.");
             },
           },
         },

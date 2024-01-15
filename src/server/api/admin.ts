@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { djs, shows, slots, users } from "../db/schema";
-import { adminProcedure, createTRPCRouter, djProcedure } from "./trpc";
+import { adminProcedure, createTRPCRouter } from "./trpc";
 
 import { addHours, addWeeks, getDay, getHours } from "date-fns";
 import {
@@ -60,7 +60,7 @@ export const adminRouter = createTRPCRouter({
     }),
 
   listDJs: adminProcedure.query(async ({ ctx }) => {
-    const result = await ctx.db.select().from(djs);
+    const result = await ctx.db.select().from(djs).orderBy(djs.name);
     return result;
   }),
 

@@ -44,7 +44,9 @@ export const shows = pgTable("show", {
 
   startTime: timestamp("start_time", {
     withTimezone: true,
-  }).notNull(),
+  })
+    .notNull()
+    .unique(),
   endTime: timestamp("end_time", {
     withTimezone: true,
   }).notNull(),

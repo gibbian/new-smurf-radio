@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
 import { GenreList } from "./small/GenreList";
+import { LiveIndicator } from "./small/LiveIndicator";
 
 interface ShowInfoProps {
   show: InferSelectModel<typeof shows>;
@@ -43,7 +44,13 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
           )}
         </div>
         <div className="text-[14px]">
-          {format(show.startTime, "haa")} - {format(show.endTime, "haa")}
+          {show.startTime < new Date() && show.endTime > new Date() ? (
+            <LiveIndicator />
+          ) : (
+            <div>
+              {format(show.startTime, "haa")} - {format(show.endTime, "haa")}
+            </div>
+          )}
         </div>
       </div>
       {variant == "full" && (

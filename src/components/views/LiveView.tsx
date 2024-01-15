@@ -11,7 +11,7 @@ interface LiveViewProps {
 
 export const LiveView = ({ payload }: LiveViewProps) => {
   return (
-    <div className="grid flex-1 grid-cols-[1fr_400px] gap-6">
+    <div className="flex flex-1 grid-cols-[1fr_400px] flex-col gap-6 md:grid">
       <div className="">
         <ShowInfo show={payload.currentShow}></ShowInfo>
         <div>Next Up...</div>

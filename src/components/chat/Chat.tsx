@@ -2,7 +2,7 @@
 
 import { nanoid } from "nanoid";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { chatMessageSchema } from "~/shared/schemas/chatMessage";
 import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
@@ -16,9 +16,19 @@ interface ChatProps {
 export const Chat = ({ showId }: ChatProps) => {
   const utils = api.useUtils();
   const { data: session, status: userStatus } = useSession();
-  const { data: messages, status } = api.chat.getInitialMessages.useQuery({
+  const { data: messages } = api.chat.getInitialMessages.useQuery({
     showId,
   });
+
+  const cancelFetch = () => {
+    utils.chat.getInitialMessages
+      .cancel()
+      .then((r) => r)
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   // Fix dev mode
   const subscribed = useRef(false);
 
@@ -29,6 +39,7 @@ export const Chat = ({ showId }: ChatProps) => {
     if (room.current !== null && !subscribed.current) {
       room.current
         .on("broadcast", { event: "message" }, (data) => {
+          cancelFetch();
           const parsed = chatMessageSchema.parse(data.payload);
           utils.chat.getInitialMessages.setData({ showId }, (old) => {
             if (!old) {
@@ -43,10 +54,12 @@ export const Chat = ({ showId }: ChatProps) => {
   }, []);
 
   const addMessagesMutation = api.chat.sendMessage.useMutation({
-    onSettled(data, error, variables, context) {
+    onSettled() {
+      cancelFetch();
       console.log("done");
     },
     async onMutate(variables) {
+      cancelFetch();
       await room.current.send({
         event: "message",
         type: "broadcast",
@@ -62,6 +75,7 @@ export const Chat = ({ showId }: ChatProps) => {
   });
 
   const handleSendMessage = (msg: string) => {
+    cancelFetch();
     if (!session?.user.name) {
       return;
     }

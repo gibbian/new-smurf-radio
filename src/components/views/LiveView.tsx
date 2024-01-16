@@ -21,7 +21,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
           {payload.nextShows.map((show) => (
             <SlimShowInfo key={show.id} show={show} />
           ))}
-          <Player></Player>
+          <Player />
         </div>
         <Chat showId={payload.currentShow.id} />
       </div>

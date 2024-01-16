@@ -91,13 +91,16 @@ export const Chat = ({ showId }: ChatProps) => {
 
   return (
     <Card className="h-full">
-      <div>Chat</div>
-      <div>{"show-" + showId}</div>
+      <div className="text-xl font-bold">Chat</div>
+      {messages?.map((msg) => (
+        <div key={msg.id}>
+          {msg.userName} - {msg.message}
+        </div>
+      ))}
+      {userStatus == "unauthenticated" && <div>Log in to send messages</div>}
       {userStatus == "authenticated" && (
         <MessageSendBar onMessage={handleSendMessage} />
       )}
-      {userStatus == "unauthenticated" && <div>Log in to send messages</div>}
-      {messages?.map((msg) => <div key={msg.id}>{msg.message}</div>)}
     </Card>
   );
 };

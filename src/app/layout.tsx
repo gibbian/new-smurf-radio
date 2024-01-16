@@ -21,6 +21,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://use.fontawesome.com/releases/v6.5.1/css/svg-with-js.css"
+          rel="stylesheet"
+        ></link>
+      </head>
       <body>
         <TRPCReactProvider cookies={cookies().toString()}>
           <MainLayout session={session}>{children}</MainLayout>

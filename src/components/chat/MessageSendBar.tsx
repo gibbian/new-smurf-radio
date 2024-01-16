@@ -16,7 +16,11 @@ export const MessageSendBar = ({ onMessage }: MessageSendBarProps) => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <Input value={value} onChange={(e) => setValue(e.target.value)}></Input>
+      <Input
+        placeholder="Send Message"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      ></Input>
     </form>
   );
 };

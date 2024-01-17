@@ -53,6 +53,11 @@ export const Chat = ({ showId }: ChatProps) => {
         .subscribe();
       subscribed.current = true;
     }
+
+    return () => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      room.current.unsubscribe();
+    };
   }, []);
 
   const addMessagesMutation = api.chat.sendMessage.useMutation({

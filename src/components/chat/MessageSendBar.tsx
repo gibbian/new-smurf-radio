@@ -1,5 +1,4 @@
-import { FormEvent, useState } from "react";
-import { type api } from "~/trpc/react";
+import { type FormEvent, useState } from "react";
 import { Input } from "../ui/input";
 
 interface MessageSendBarProps {
@@ -13,7 +12,9 @@ export const MessageSendBar = ({ onMessage }: MessageSendBarProps) => {
     e.preventDefault();
 
     onMessage(value);
+    setValue("");
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input

@@ -8,6 +8,7 @@ import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
 import { Card } from "../Card";
 import { MessageSendBar } from "./MessageSendBar";
+import { type z } from "zod";
 
 interface ChatProps {
   showId: string;
@@ -90,17 +91,29 @@ export const Chat = ({ showId }: ChatProps) => {
   };
 
   return (
-    <Card className="h-full">
+    <Card className="flex flex-col justify-between gap-3">
       <div className="text-xl font-bold">Chat</div>
-      {messages?.map((msg) => (
-        <div key={msg.id}>
-          {msg.userName} - {msg.message}
-        </div>
-      ))}
+      <div className="debug flex flex-grow flex-col gap-2 justify-self-start overflow-y-scroll">
+        {messages
+          ?.reverse()
+          ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
+      </div>
       {userStatus == "unauthenticated" && <div>Log in to send messages</div>}
       {userStatus == "authenticated" && (
         <MessageSendBar onMessage={handleSendMessage} />
       )}
+    </Card>
+  );
+};
+
+interface MessageProps {
+  message: z.infer<typeof chatMessageSchema>;
+}
+
+export const Message = ({ message }: MessageProps) => {
+  return (
+    <Card>
+      <div className="py-3">{message.message}</div>
     </Card>
   );
 };

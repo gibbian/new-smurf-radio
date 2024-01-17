@@ -33,6 +33,7 @@ export default async function Page() {
             <div className="flex flex-col gap-1">
               {shows.map((show) => (
                 <ShowInfo
+                  key={show.id}
                   fillBg={false}
                   variant="compact"
                   show={show}

@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { z } from "zod";
 import { chatMessages, users } from "../db/schema";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "./trpc";
@@ -22,9 +22,15 @@ export const chatRouter = createTRPCRouter({
           id: chatMessages.id,
         })
         .from(chatMessages)
-        .where(eq(chatMessages.showId, input.showId))
-        .orderBy(chatMessages.timestamp)
         .innerJoin(users, eq(users.id, chatMessages.userId))
+        .where(
+          and(
+            eq(chatMessages.showId, input.showId),
+            // username is not null
+            isNotNull(users.name),
+          ),
+        )
+        .orderBy(chatMessages.timestamp)
         .limit(100);
       return messages;
     }),

@@ -23,15 +23,14 @@ export const MainLayout = ({
 
   const mainContainerClass = cn(
     "p-4 text-text md:p-6",
-    pathname === "/live" && "overflow-scroll flex-1",
+    pathname === "/live" && "overflow-scroll flex-1 p-0 sm:p-4",
   );
 
   return (
     <SessionProvider session={session}>
       <div
         className={cn(
-          pathname === "/live" &&
-            "flex h-screen min-h-screen flex-col bg-blue-500",
+          pathname === "/live" && "flex h-screen min-h-screen flex-col",
         )}
       >
         <Navbar session={session}></Navbar>

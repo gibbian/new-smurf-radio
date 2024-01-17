@@ -9,6 +9,7 @@ import { api } from "~/trpc/react";
 import { Card } from "../Card";
 import { MessageSendBar } from "./MessageSendBar";
 import { type z } from "zod";
+import { formatDistanceToNow } from "date-fns";
 
 interface ChatProps {
   showId: string;
@@ -91,12 +92,19 @@ export const Chat = ({ showId }: ChatProps) => {
   };
 
   return (
-    <Card className="flex flex-col justify-between gap-3">
+    <Card className="flex flex-col justify-between gap-3 md:min-w-[350px]">
       <div className="text-xl font-bold">Chat</div>
-      <div className="debug flex flex-grow flex-col gap-2 justify-self-start overflow-y-scroll">
-        {messages
-          ?.reverse()
-          ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
+      <div
+        style={{
+          overflowAnchor: "auto",
+        }}
+        className="flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-scroll"
+      >
+        <div className="translate-y-0">
+          {messages
+            ?.reverse()
+            ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
+        </div>
       </div>
       {userStatus == "unauthenticated" && <div>Log in to send messages</div>}
       {userStatus == "authenticated" && (
@@ -112,8 +120,12 @@ interface MessageProps {
 
 export const Message = ({ message }: MessageProps) => {
   return (
-    <Card>
-      <div className="py-3">{message.message}</div>
-    </Card>
+    <div>
+      <div className="my-2 flex justify-between">
+        <div>{message.userName}</div>
+        <div>{formatDistanceToNow(message.timestamp)}</div>
+      </div>
+      <div>{message.message}</div>
+    </div>
   );
 };

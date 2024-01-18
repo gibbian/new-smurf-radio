@@ -92,10 +92,12 @@ export const chatMessages = pgTable("chat_message", {
     .references(() => users.id, {
       onDelete: "cascade",
     }),
-  message: text("message"),
+  message: text("message").notNull(),
   timestamp: timestamp("timestamp", {
     mode: "date",
-  }).default(sql`CURRENT_TIMESTAMP(3)`),
+  })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
 });
 
 export const songs = pgTable("song", {
@@ -153,7 +155,7 @@ export const slotRelations = relations(slots, ({ one }) => ({
 
 export const users = pgTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
+  name: varchar("name", { length: 255 }).notNull().default(""),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("email_verified", {
     mode: "date",

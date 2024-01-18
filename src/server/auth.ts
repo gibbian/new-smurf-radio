@@ -1,5 +1,4 @@
 import {
-  type DefaultUser,
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,

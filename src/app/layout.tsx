@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import { MainLayout } from "~/components/layouts/MainLayout";
 import { getServerAuthSession } from "~/server/auth";
 import { TRPCReactProvider } from "~/trpc/react";
+import { PHProvider } from "./providers";
+import dynamic from "next/dynamic";
 
 export const metadata = {
   title: "SMURF Radio",
@@ -18,6 +20,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
+  const PostHogPageView = dynamic(() => import("./PostHogPageView"), {
+    ssr: false,
+  });
 
   return (
     <html lang="en">
@@ -28,9 +33,12 @@ export default async function RootLayout({
         ></link>
       </head>
       <body>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          <MainLayout session={session}>{children}</MainLayout>
-        </TRPCReactProvider>
+        <PHProvider>
+          <TRPCReactProvider cookies={cookies().toString()}>
+            <PostHogPageView />
+            <MainLayout session={session}>{children}</MainLayout>
+          </TRPCReactProvider>
+        </PHProvider>
       </body>
     </html>
   );

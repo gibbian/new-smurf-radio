@@ -25,7 +25,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
     ) : (
       <Drawer preventScrollRestoration>
         <DrawerTrigger>
-          <div className="w-screen border border-border bg-card-bg py-4">
+          <div className="w-screen border border-border bg-card-bg py-4 focus:ring-transparent">
             Open Chat
           </div>
         </DrawerTrigger>

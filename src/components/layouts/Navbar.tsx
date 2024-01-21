@@ -33,6 +33,13 @@ export const Navbar = ({ session }: { session: Session | null }) => {
     });
   }
 
+  if (session?.user) {
+    links.push({
+      href: "/account",
+      label: "Account",
+    });
+  }
+
   return (
     <div className="sticky top-0">
       <nav className="flex items-center justify-between border-b border-[#939393] bg-bg px-4 py-3 md:px-6">
@@ -50,14 +57,7 @@ export const Navbar = ({ session }: { session: Session | null }) => {
               {link.label}
             </Link>
           ))}
-          {session?.user ? (
-            <div
-              onClick={() => signOut()}
-              className="cursor-pointer text-sm font-semibold uppercase"
-            >
-              Sign Out
-            </div>
-          ) : (
+          {session?.user ? null : (
             <div
               onClick={() => signIn("google")}
               className="cursor-pointer text-sm font-semibold uppercase"

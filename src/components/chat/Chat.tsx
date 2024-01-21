@@ -118,7 +118,7 @@ export const Chat = ({ showId }: ChatProps) => {
         }}
         className="hide-scrollbar flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto max-sm:max-h-[60vh]"
       >
-        <div ref={msgContainer} className="translate-y-0 overflow-scroll">
+        <div ref={msgContainer} className="overflow-auth translate-y-0">
           {messages
             ?.reverse()
             ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}

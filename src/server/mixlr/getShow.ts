@@ -13,7 +13,7 @@ const showResponseSchema = z.object({
 
 export const getShow = async () => {
   const response = await fetch(
-    "https://api.mixlr.com/v3/channel_view/smuradiofrequency",
+    "https://api.mixlr.com/v3/channel_view/koinonia-global-radio",
   );
 
   if (response.status != 200) {

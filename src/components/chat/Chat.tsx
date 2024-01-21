@@ -97,13 +97,13 @@ export const Chat = ({ showId }: ChatProps) => {
   };
 
   return (
-    <Card className="flex flex-col justify-between gap-3 md:min-w-[350px]">
+    <>
       <div className="text-xl font-bold">Chat</div>
       <div
         style={{
           overflowAnchor: "auto",
         }}
-        className="flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-scroll"
+        className="flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto"
       >
         <div className="translate-y-0">
           {messages
@@ -115,7 +115,7 @@ export const Chat = ({ showId }: ChatProps) => {
       {userStatus == "authenticated" && (
         <MessageSendBar onMessage={handleSendMessage} />
       )}
-    </Card>
+    </>
   );
 };
 

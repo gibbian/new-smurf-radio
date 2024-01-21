@@ -4,8 +4,10 @@ import { api } from "~/trpc/react";
 import { LiveIndicator } from "../small/LiveIndicator";
 import { lightFormat } from "date-fns";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const LiveBar = () => {
+  const pathname = usePathname();
   const { data: possibleLive, status } = api.shows.getLiveShow.useQuery(
     undefined,
     { refetchInterval: 30_000 },
@@ -16,6 +18,10 @@ export const LiveBar = () => {
   }
 
   if (!possibleLive) {
+    return null;
+  }
+
+  if (pathname === "/live") {
     return null;
   }
 

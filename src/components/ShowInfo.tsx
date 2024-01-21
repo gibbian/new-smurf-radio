@@ -12,9 +12,15 @@ interface ShowInfoProps {
   fillBg?: boolean;
   variant?: "full" | "compact";
   showDate?: boolean;
+  extraElements?: React.ReactNode;
 }
 
-export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
+export const ShowInfo = ({
+  show,
+  fillBg,
+  variant = "full",
+  extraElements,
+}: ShowInfoProps) => {
   const outer = cva("border flex-col flex border-border", {
     variants: {
       variant: {
@@ -44,7 +50,7 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
             </div>
           )}
         </div>
-        <div className="text-[14px]">
+        <div className="flex gap-6 text-[14px]">
           {show.startTime < new Date() && show.endTime > new Date() ? (
             <LiveIndicator />
           ) : (
@@ -52,6 +58,7 @@ export const ShowInfo = ({ show, fillBg, variant = "full" }: ShowInfoProps) => {
               {format(show.startTime, "haa")} - {format(show.endTime, "haa")}
             </div>
           )}
+          {extraElements}
         </div>
       </div>
       {variant == "full" && (

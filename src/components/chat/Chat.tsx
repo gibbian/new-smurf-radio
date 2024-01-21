@@ -1,15 +1,14 @@
 "use client";
 
+import { formatDistanceToNow } from "date-fns";
 import { nanoid } from "nanoid";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
+import { type z } from "zod";
 import { chatMessageSchema } from "~/shared/schemas/chatMessage";
 import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
-import { Card } from "../Card";
 import { MessageSendBar } from "./MessageSendBar";
-import { type z } from "zod";
-import { formatDistanceToNow } from "date-fns";
 
 interface ChatProps {
   showId: string;
@@ -21,6 +20,8 @@ export const Chat = ({ showId }: ChatProps) => {
   const { data: messages } = api.chat.getInitialMessages.useQuery({
     showId,
   });
+
+  const msgContainer = useRef<HTMLDivElement>(null);
 
   const cancelFetch = () => {
     utils.chat.getInitialMessages
@@ -60,10 +61,15 @@ export const Chat = ({ showId }: ChatProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const addMessagesMutation = api.chat.sendMessage.useMutation({
     onSettled() {
       cancelFetch();
       console.log("done");
+      scrollToBottom();
     },
     async onMutate(variables) {
       cancelFetch();
@@ -78,6 +84,7 @@ export const Chat = ({ showId }: ChatProps) => {
         }
         return [...old, variables];
       });
+      scrollToBottom();
     },
   });
 
@@ -96,6 +103,12 @@ export const Chat = ({ showId }: ChatProps) => {
     });
   };
 
+  const scrollToBottom = () => {
+    if (msgContainer.current) {
+      msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+    }
+  };
+
   return (
     <>
       <div className="text-xl font-bold">Chat</div>
@@ -103,9 +116,9 @@ export const Chat = ({ showId }: ChatProps) => {
         style={{
           overflowAnchor: "auto",
         }}
-        className="flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto"
+        className="hide-scrollbar flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto max-sm:max-h-[60vh]"
       >
-        <div className="translate-y-0">
+        <div ref={msgContainer} className="translate-y-0 overflow-scroll">
           {messages
             ?.reverse()
             ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}

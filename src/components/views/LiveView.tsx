@@ -23,16 +23,22 @@ export const LiveView = ({ payload }: LiveViewProps) => {
         <Chat showId={payload.currentShow.id} />
       </Card>
     ) : (
-      <Drawer>
-        <DrawerTrigger>Open Chat</DrawerTrigger>
+      <Drawer preventScrollRestoration>
+        <DrawerTrigger>
+          <div className="w-screen border border-border bg-card-bg py-4">
+            Open Chat
+          </div>
+        </DrawerTrigger>
         <DrawerContent>
-          <Chat showId={payload.currentShow.id} />
+          <div className="flex flex-col gap-3">
+            <Chat showId={payload.currentShow.id} />
+          </div>
         </DrawerContent>
       </Drawer>
     );
 
   return (
-    <div className="flex h-full max-h-full flex-1 flex-col gap-6 overflow-y-auto sm:flex-row">
+    <div className="flex max-h-full flex-1 flex-col gap-6 overflow-y-auto sm:flex-row md:h-full">
       <div className="LEFT flex-grow md:flex md:flex-col md:justify-between">
         <div className="TOP ">
           <ShowInfo show={payload.currentShow}></ShowInfo>

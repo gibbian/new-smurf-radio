@@ -23,7 +23,7 @@ export const MainLayout = ({
 
   const mainContainerClass = cn(
     "p-4 text-text md:p-6",
-    pathname === "/live" && "flex-1 p-0 sm:p-4",
+    pathname === "/live" && "flex-1 overflow-hidden p-0 sm:p-4",
   );
 
   return (

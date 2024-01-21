@@ -14,7 +14,7 @@ export const OfflineStreamIndicator = (props: OfflineStreamIndicatorProps) => {
   }, []);
   return (
     <div className="p-4 text-right text-sm text-white/50">
-      Waiting for stream to start.
+      Waiting for stream to start...
     </div>
   );
 };

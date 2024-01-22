@@ -66,17 +66,11 @@ export const memberRouter = createTRPCRouter({
     }),
 
   myUpcomingShows: djProcedure.query(async ({ ctx }) => {
-    const thisMorning = new Date();
-    thisMorning.setHours(0, 0, 0, 0);
+    const now = new Date();
     const result = await ctx.db
       .select()
       .from(shows)
-      .where(
-        and(
-          eq(shows.djId, ctx.session.user.djId),
-          gt(shows.startTime, thisMorning),
-        ),
-      )
+      .where(and(eq(shows.djId, ctx.session.user.djId), gt(shows.endTime, now)))
       .orderBy(shows.startTime);
     return result;
   }),

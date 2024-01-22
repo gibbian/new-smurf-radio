@@ -41,3 +41,26 @@ export const timeMap = {
   22: "10:00 PM",
   23: "11:00 PM",
 };
+
+export function timeSince(date: Date) {
+  const seconds = Math.floor(
+    (new Date().getSeconds() - new Date(date).getSeconds()) / 1000,
+  );
+  const intervals = {
+    year: 31536000,
+    month: 2592000,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+  };
+
+  for (const [period, secondsInPeriod] of Object.entries(intervals)) {
+    const interval = Math.floor(seconds / secondsInPeriod);
+    if (interval >= 1) {
+      //@ts-expect-error coppied
+      return interval + period[0] + (interval > 1 ? "" : "") + " ago";
+    }
+  }
+
+  return "just now";
+}

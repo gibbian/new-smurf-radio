@@ -1,13 +1,13 @@
 "use client";
 
-import { formatDistanceToNow } from "date-fns";
 import { nanoid } from "nanoid";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { type z } from "zod";
 import { chatMessageSchema } from "~/shared/schemas/chatMessage";
 import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
+import { timeSince } from "~/utils/time";
 import { MessageSendBar } from "./MessageSendBar";
 
 interface ChatProps {
@@ -118,13 +118,22 @@ export const Chat = ({ showId }: ChatProps) => {
         }}
         className="hide-scrollbar flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto max-sm:max-h-[60vh]"
       >
-        <div ref={msgContainer} className="overflow-auth translate-y-0">
+        <div ref={msgContainer} className="overflow-auth [200px] translate-y-0">
           {messages
             ?.reverse()
             ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
         </div>
       </div>
-      {userStatus == "unauthenticated" && <div>Log in to send messages</div>}
+      {userStatus == "unauthenticated" && (
+        <div
+          onClick={() => {
+            void signIn("google");
+          }}
+          className="cursor-pointer text-center text-sm text-white/80"
+        >
+          Sign in with Google to chat...
+        </div>
+      )}
       {userStatus == "authenticated" && (
         <MessageSendBar onMessage={handleSendMessage} />
       )}
@@ -141,9 +150,9 @@ export const Message = ({ message }: MessageProps) => {
     <div>
       <div className="my-2 flex justify-between">
         <div>{message.userName}</div>
-        <div>{formatDistanceToNow(message.timestamp)}</div>
+        <div>{timeSince(message.timestamp)}</div>
       </div>
-      <div>{message.message}</div>
+      <div className="text-wrap">{message.message}</div>
     </div>
   );
 };

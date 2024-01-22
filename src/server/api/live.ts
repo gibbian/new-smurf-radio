@@ -1,7 +1,7 @@
+import { addHours } from "date-fns";
 import { and, gt, lt } from "drizzle-orm";
 import { shows } from "../db/schema";
 import { createTRPCRouter, publicProcedure } from "./trpc";
-import { addDays } from "date-fns";
 
 export const liveRouter = createTRPCRouter({
   getLivePayload: publicProcedure.query(async ({ ctx }) => {
@@ -13,9 +13,9 @@ export const liveRouter = createTRPCRouter({
       )
       .then((shows) => shows.at(0));
 
+    // TODO: update with local time
     let tomorrowMorning = new Date();
-    tomorrowMorning.setHours(0, 0, 0, 0);
-    tomorrowMorning = addDays(tomorrowMorning, 1);
+    tomorrowMorning = addHours(tomorrowMorning, 4);
 
     console.log({ tomorrowMorning });
 

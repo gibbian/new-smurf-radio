@@ -1,4 +1,4 @@
-import { and, eq, gt, lt } from "drizzle-orm";
+import { and, eq, gt, lt, sql } from "drizzle-orm";
 import { z } from "zod";
 import { shows } from "../db/schema";
 import { getCurrentShow } from "../helpers/shows";
@@ -52,11 +52,11 @@ export const showRouter = createTRPCRouter({
     const nextShow = await ctx.db
       .select()
       .from(shows)
-      .where(
-        and(gt(shows.startTime, new Date()), gt(shows.endTime, new Date())),
-      )
-      .then((result) => result.at(0));
-    return nextShow;
+      .where(gt(shows.startTime, new Date()))
+      .orderBy(shows.startTime)
+      .limit(4);
+    console.log(nextShow);
+    return nextShow[0];
   }),
 
   nextShowsForToday: publicProcedure.query(async ({ ctx }) => {

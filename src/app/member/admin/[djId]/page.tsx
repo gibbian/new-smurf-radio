@@ -7,6 +7,7 @@ import { formatSlotFromDate } from "~/utils/time";
 
 export default async function Page({ params }: { params: { djId: string } }) {
   const details = await api.djs.getDjDetails.query({ djId: params.djId });
+  const slot = await api.admin.getUserSlot.query({ djId: params.djId });
   if (!details) {
     return <div>Could not find dj</div>;
   }
@@ -17,6 +18,7 @@ export default async function Page({ params }: { params: { djId: string } }) {
         <div className="flex-grow">
           <div className="text-lg font-bold">{details.name}</div>
           <div className="text-sm">{details.user?.email}</div>
+          <div>{slot?.time.toLocaleString()}</div>
           <div className="text-sm">
             {details.slot[0] && formatSlotFromDate(details.slot[0]?.time)}
           </div>

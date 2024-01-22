@@ -264,4 +264,19 @@ export const adminRouter = createTRPCRouter({
       .then((r) => r.map((u) => u.email));
     return emails.sort();
   }),
+
+  getUserSlot: adminProcedure
+    .input(
+      z.object({
+        djId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const slot = ctx.db
+        .select()
+        .from(slots)
+        .where(eq(slots.djId, input.djId))
+        .then((r) => r.at(0));
+      return slot;
+    }),
 });

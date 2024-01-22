@@ -27,7 +27,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
       <Drawer preventScrollRestoration>
         {width < 700 && (
           <DrawerTrigger>
-            <div className="fixed bottom-0 flex w-screen items-center justify-center gap-4 rounded-t-2xl border border-border bg-card-bg py-2 text-sm focus:ring-transparent sm:hidden">
+            <div className="fixed bottom-0 flex w-screen items-center justify-center gap-4 rounded-t-2xl border border-border border-b-transparent bg-card-bg py-2 text-sm focus:ring-transparent sm:hidden">
               <FontAwesomeIcon icon={faChevronUp}></FontAwesomeIcon>
               Open Chat
             </div>

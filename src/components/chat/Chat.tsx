@@ -1,5 +1,7 @@
 "use client";
 
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nanoid } from "nanoid";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
@@ -9,8 +11,6 @@ import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
 import { timeSince } from "~/utils/time";
 import { MessageSendBar } from "./MessageSendBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPerson, faUser } from "@fortawesome/free-solid-svg-icons";
 
 interface ChatProps {
   showId: string;

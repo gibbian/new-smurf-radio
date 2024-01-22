@@ -45,7 +45,7 @@ export const ShowInfo = ({
         <div className="flex gap-10">
           <div className="text-[16px] font-bold">{show.djName}</div>
           {variant == "compact" && (
-            <div className="text-[16px] font-medium text-white/40">
+            <div className="text-[16px] font-medium text-text/40">
               {show.title}
             </div>
           )}
@@ -72,7 +72,7 @@ export const ShowInfo = ({
       {variant == "full" ? (
         <GenreList variant="subtle" genres={show.genres} />
       ) : (
-        <div className="text-[14px] text-white/80">{show.description}</div>
+        <div className="text-[14px] text-text/80">{show.description}</div>
       )}
     </div>
   );

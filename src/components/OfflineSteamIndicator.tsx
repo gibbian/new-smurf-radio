@@ -10,7 +10,7 @@ export const OfflineStreamIndicator = (props: OfflineStreamIndicatorProps) => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="p-4 text-right text-sm text-white/50">
+    <div className="p-4 text-right text-sm text-text/50">
       Waiting for stream to start...
     </div>
   );

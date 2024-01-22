@@ -5,7 +5,7 @@ import { ClientRenderTime } from "./ClientRenderTime";
 export const HomepageOffline = async () => {
   const nextShow = await api.shows.getNextShow.query();
   return (
-    <Card className="mb-6 grid place-items-center text-white/80">
+    <Card className="mb-6 grid place-items-center text-text/80">
       <div className="mb-2">SMURF is currently offline.</div>
       {nextShow && (
         <>

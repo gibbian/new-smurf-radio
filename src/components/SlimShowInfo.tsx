@@ -28,7 +28,7 @@ export const SlimShowInfo = ({ show, fillBg = false }: ShowInfoProps) => {
     <div className={outer({ fillBg })}>
       <div className="flex items-baseline gap-4">
         <div>{show.djName}</div>
-        <div className="text-[12px] text-white/70">{show.title}</div>
+        <div className="text-[12px] text-text/70">{show.title}</div>
       </div>
       <div className="text-[14px]">
         {format(show.startTime, "haa")} - {format(show.endTime, "haa")}

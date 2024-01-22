@@ -48,7 +48,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
         <div className="TOP ">
           <ShowInfo show={payload.currentShow}></ShowInfo>
           {payload.nextShows.length > 0 && (
-            <div className="my-4 text-center text-xs text-white/50">
+            <div className="my-4 text-center text-xs text-text/50">
               Next Up...
             </div>
           )}

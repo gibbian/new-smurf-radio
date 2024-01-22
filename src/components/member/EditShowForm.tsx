@@ -128,7 +128,7 @@ export const GenrePicker = ({ value, onChange }: GenrePickerProps) => {
               setInput("");
             }
           }}
-          className="rounded-full border border-border bg-input-bg p-1 pl-3 text-sm placeholder:text-white/50 focus-visible:outline-none"
+          className="rounded-full border border-border bg-input-bg p-1 pl-3 text-sm placeholder:text-text/50 focus-visible:outline-none"
           value={input}
           onChange={(e) => {
             setInput(e.target.value);

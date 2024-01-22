@@ -12,7 +12,7 @@ export const GenreList = ({ genres, variant }: GenreListProps) => {
       variants: {
         variant: {
           bold: "border-white/25 bg-card-bg border px-2 p-1",
-          subtle: "text-white/80",
+          subtle: "text-text/80",
         },
       },
       defaultVariants: {

@@ -20,7 +20,7 @@ export const UpcomingShowCard = ({ show }: UpcomingShowCardProps) => {
         <div className="text-[16px] font-semibold">{show.title}</div>
       )}
       {show.description && (
-        <div className="text-[12px] text-white/70">{show.description}</div>
+        <div className="text-[12px] text-text/70">{show.description}</div>
       )}
       <GenreList genres={show.genres}></GenreList>
     </Card>

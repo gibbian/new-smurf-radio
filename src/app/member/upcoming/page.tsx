@@ -17,7 +17,7 @@ export default async function () {
     <div>
       <div className="flex flex-col gap-2">
         {upcomingShows.length === 0 && (
-          <div className="grid min-h-[100px] place-items-center text-sm text-white/40">
+          <div className="grid min-h-[100px] place-items-center text-sm text-text/40">
             You have no upcoming shows!
             <form action={createShowAction}>
               <Button className="w-full">New Show</Button>

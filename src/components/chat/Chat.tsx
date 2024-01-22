@@ -143,7 +143,7 @@ export const Chat = ({ showId }: ChatProps) => {
       >
         {messages?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
         {messages?.length === 0 && (
-          <div className="text-center text-sm text-white/40">
+          <div className="text-center text-sm text-text/40">
             No Messages Yet
           </div>
         )}
@@ -153,7 +153,7 @@ export const Chat = ({ showId }: ChatProps) => {
           onClick={() => {
             void signIn("google");
           }}
-          className="cursor-pointer pb-4 text-center text-sm text-white/60"
+          className="cursor-pointer pb-4 text-center text-sm text-text/60"
         >
           Sign in with Google to chat...
         </div>
@@ -173,8 +173,8 @@ export const Message = ({ message }: MessageProps) => {
   return (
     <div className="my-2">
       <div className="flex justify-between text-xs">
-        <div className="text-white/80">{message.userName}</div>
-        <div className="text-white/50">{timeSince(message.timestamp)}</div>
+        <div className="text-text/80">{message.userName}</div>
+        <div className="text-text/50">{timeSince(message.timestamp)}</div>
       </div>
       <div className="text-wrap text-[14px]">{message.message}</div>
     </div>

@@ -6,6 +6,7 @@ import { type shows } from "~/server/db/schema";
 import { GenreList } from "./small/GenreList";
 import { LiveIndicator } from "./small/LiveIndicator";
 import { cn } from "~/utils";
+import { ClientRenderTime } from "./ClientRenderTime";
 
 interface ShowInfoProps {
   show: InferSelectModel<typeof shows>;
@@ -55,7 +56,8 @@ export const ShowInfo = ({
             <LiveIndicator />
           ) : (
             <div>
-              {format(show.startTime, "haa")} - {format(show.endTime, "haa")}
+              <ClientRenderTime time={show.startTime} formatString="haa" /> -{" "}
+              <ClientRenderTime time={show.endTime} formatString="haa" />
             </div>
           )}
           {extraElements}

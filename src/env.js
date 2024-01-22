@@ -33,6 +33,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string(),
 
     SENTRY_DSN: z.string().optional(),
+
+    ICE_URL: z.string(),
   },
 
   /**
@@ -72,6 +74,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_API_KEY: process.env.NEXT_PUBLIC_SUPABASE_API_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    ICE_URL: process.env.ICE_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

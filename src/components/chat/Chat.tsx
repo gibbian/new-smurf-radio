@@ -66,15 +66,7 @@ export const Chat = ({ showId }: ChatProps) => {
           setViewerCount(Object.keys(newState).length);
           console.log("NEWSTATE", newState);
         })
-        .on("presence", { event: "join" }, ({ key, newPresences }) => {
-          console.log("join", key, newPresences);
-        })
-        .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-          console.log("leave", key, leftPresences);
-        })
-        .subscribe((status) => {
-          console.log("status", status);
-        });
+        .subscribe();
       void room.current.track({ imhere: true });
       subscribed.current = true;
     }
@@ -123,6 +115,7 @@ export const Chat = ({ showId }: ChatProps) => {
   };
 
   const scrollToBottom = () => {
+    console.log("Bottom");
     if (msgContainer.current) {
       msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
     }
@@ -134,7 +127,7 @@ export const Chat = ({ showId }: ChatProps) => {
         <div className="text-xl font-bold">Chat</div>
         <div className="flex items-center gap-2 text-gray-500">
           <FontAwesomeIcon
-            size="sm"
+            size="xs"
             color="gray"
             icon={faUser}
           ></FontAwesomeIcon>
@@ -145,13 +138,15 @@ export const Chat = ({ showId }: ChatProps) => {
         style={{
           overflowAnchor: "auto",
         }}
-        className="hide-scrollbar flex flex-grow flex-col-reverse gap-2 justify-self-start overflow-y-auto max-sm:max-h-[60vh]"
+        ref={msgContainer}
+        className="hide-scrollbar flex flex-grow flex-col justify-self-start overflow-y-auto max-sm:max-h-[60vh]"
       >
-        <div ref={msgContainer} className="overflow-auth [200px] translate-y-0">
-          {messages
-            ?.reverse()
-            ?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
-        </div>
+        {messages?.map((msg) => <Message message={msg} key={msg.id}></Message>)}
+        {messages?.length === 0 && (
+          <div className="text-center text-sm text-white/40">
+            No Messages Yet
+          </div>
+        )}
       </div>
       {userStatus == "unauthenticated" && (
         <div
@@ -176,7 +171,7 @@ interface MessageProps {
 
 export const Message = ({ message }: MessageProps) => {
   return (
-    <div className="my-4">
+    <div className="my-2">
       <div className="flex justify-between text-xs">
         <div className="text-white/80">{message.userName}</div>
         <div className="text-white/50">{timeSince(message.timestamp)}</div>

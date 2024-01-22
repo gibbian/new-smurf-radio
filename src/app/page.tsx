@@ -1,7 +1,5 @@
 import { format } from "date-fns";
 import { type ReactNode } from "react";
-import { Card } from "~/components/Card";
-import { ClientRenderTime } from "~/components/ClientRenderTime";
 import { HomepageOffline } from "~/components/OfflineBox";
 import { ShowInfo } from "~/components/ShowInfo";
 import { SlimShowInfo } from "~/components/SlimShowInfo";

@@ -69,7 +69,7 @@ export const getShow = async () => {
   }
 
   const response = await fetch(
-    "https://api.mixlr.com/v3/channel_view/rccg-prayerrain-radio",
+    "https://api.mixlr.com/v3/channel_view/smuradiofrequency",
   );
 
   if (response.status != 200) {

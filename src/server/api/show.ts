@@ -37,7 +37,8 @@ export const showRouter = createTRPCRouter({
 
   getSchedule: publicProcedure.query(async ({ ctx }) => {
     const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    // Set timezone to cst
+    now.setHours(now.getHours() - 5);
     let oneWeekFromNow = new Date();
     oneWeekFromNow = addDays(oneWeekFromNow, 10);
     const result = await ctx.db

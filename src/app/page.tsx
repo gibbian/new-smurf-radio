@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
 import { HomepageOffline } from "~/components/OfflineBox";
 import { ShowInfo } from "~/components/ShowInfo";
 import { SlimShowInfo } from "~/components/SlimShowInfo";
+import { HomepageScheduleShow } from "~/components/views/ScheduleShow";
 import { api } from "~/trpc/server";
 import { cn } from "~/utils";
 
@@ -20,6 +21,7 @@ const HomepageHeader = ({
 
 export default async function Home() {
   const liveNow = await api.shows.getLiveShow.query();
+  const schedule = await api.shows.getSchedule.query();
 
   return (
     <div className="grid gap-8 px-8 pt-4 md:grid-cols-[1fr_300px]">
@@ -55,52 +57,10 @@ export default async function Home() {
           click the banner!
         </div>
       </main>
-      <HomepageSidebar />
+      <div>
+        <HomepageHeader>Schedule</HomepageHeader>
+        <HomepageScheduleShow shows={schedule} />
+      </div>
     </div>
   );
 }
-
-const HomepageSidebar = async () => {
-  const shows = await api.shows.getSchedule.query();
-
-  // Group shows by startDate
-  const groupedShows = shows.reduce(
-    (acc, show) => {
-      console.log(format(show.startTime, "yd"));
-      const key = new Date(show.startTime).toDateString();
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      if (acc[key]) {
-        // @ts-expect-error Will always be there
-        acc[key].push(show);
-      }
-      return acc;
-    },
-    {} as Record<string, typeof shows>,
-  );
-
-  return (
-    <main>
-      <HomepageHeader classname="mb-2">Schedule</HomepageHeader>
-      <div className="m-auto flex max-w-[600px] flex-col gap-8">
-        {Object.entries(groupedShows).map(([key, shows]) => (
-          <div key={key}>
-            <div className="mb-1 text-[14px] font-semibold">
-              {format(shows[0]!.startTime, "EEEE, LLL d")}
-            </div>
-            <div className="flex flex-col gap-1">
-              {shows.map((show) => (
-                <SlimShowInfo
-                  key={show.id}
-                  fillBg={false}
-                  show={show}
-                ></SlimShowInfo>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
-};

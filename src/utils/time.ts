@@ -44,7 +44,8 @@ export const timeMap = {
 
 export function timeSince(date: Date) {
   const seconds = Math.floor(
-    (new Date().getSeconds() - new Date(date).getSeconds()) / 1000,
+    // @ts-expect-error time stuff
+    (new Date() - new Date(date)) / 1000,
   );
   const intervals = {
     year: 31536000,
@@ -62,5 +63,5 @@ export function timeSince(date: Date) {
     }
   }
 
-  return "just now";
+  return "Just Now";
 }

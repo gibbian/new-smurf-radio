@@ -1,7 +1,7 @@
-import { format } from "date-fns";
 import { type InferSelectModel } from "drizzle-orm";
 import { type shows } from "~/server/db/schema";
 import { Card } from "../Card";
+import { ClientRenderTime } from "../ClientRenderTime";
 import { GenreList } from "../small/GenreList";
 
 interface UpcomingShowCardProps {
@@ -12,7 +12,7 @@ export const UpcomingShowCard = ({ show }: UpcomingShowCardProps) => {
     <Card className="flex flex-col gap-3">
       <div className="flex justify-between">
         <div className="text-[16px] font-semibold">
-          {format(show.startTime, "EEEE, MMM d")}
+          <ClientRenderTime time={show.startTime} formatString="EEEE, MMM d" />
         </div>
         <div>Published</div>
       </div>

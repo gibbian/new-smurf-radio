@@ -43,7 +43,9 @@ export const Navbar = ({ session }: { session: Session | null }) => {
   return (
     <div className="sticky top-0">
       <nav className="flex items-center justify-between border-b border-[#939393] bg-bg px-4 py-3 md:px-6">
-        <div className="text-[16px] font-semibold">SMURF RADIO</div>
+        <Link href="/">
+          <div className="text-[16px] font-semibold">SMURF RADIO</div>
+        </Link>
         <div className="links hidden gap-7 py-2 md:flex">
           {links.map((link) => (
             <Link

@@ -2,13 +2,15 @@
 
 import { nanoid } from "nanoid";
 import { signIn, useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type z } from "zod";
 import { chatMessageSchema } from "~/shared/schemas/chatMessage";
 import { supabase } from "~/supabase";
 import { api } from "~/trpc/react";
 import { timeSince } from "~/utils/time";
 import { MessageSendBar } from "./MessageSendBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPerson, faUser } from "@fortawesome/free-solid-svg-icons";
 
 interface ChatProps {
   showId: string;
@@ -20,6 +22,8 @@ export const Chat = ({ showId }: ChatProps) => {
   const { data: messages } = api.chat.getInitialMessages.useQuery({
     showId,
   });
+
+  const [viewerCount, setViewerCount] = useState(0);
 
   const msgContainer = useRef<HTMLDivElement>(null);
 
@@ -36,7 +40,13 @@ export const Chat = ({ showId }: ChatProps) => {
   const subscribed = useRef(false);
 
   // TODO: add presence
-  const room = useRef(supabase.channel("show-" + showId));
+  const room = useRef(
+    supabase.channel(showId, {
+      config: {
+        presence: { key: nanoid(5) },
+      },
+    }),
+  );
 
   useEffect(() => {
     if (room.current !== null && !subscribed.current) {
@@ -51,15 +61,24 @@ export const Chat = ({ showId }: ChatProps) => {
             return [...old, parsed];
           });
         })
-        .subscribe();
+        .on("presence", { event: "sync" }, () => {
+          const newState = room.current.presenceState();
+          setViewerCount(Object.keys(newState).length);
+          console.log("NEWSTATE", newState);
+        })
+        .on("presence", { event: "join" }, ({ key, newPresences }) => {
+          console.log("join", key, newPresences);
+        })
+        .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
+          console.log("leave", key, leftPresences);
+        })
+        .subscribe((status) => {
+          console.log("status", status);
+        });
+      void room.current.track({ imhere: true });
       subscribed.current = true;
     }
-
-    return () => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      room.current.unsubscribe();
-    };
-  }, []);
+  }, [room]);
 
   useEffect(() => {
     scrollToBottom();
@@ -111,7 +130,17 @@ export const Chat = ({ showId }: ChatProps) => {
 
   return (
     <>
-      <div className="text-xl font-bold">Chat</div>
+      <div className="flex justify-between">
+        <div className="text-xl font-bold">Chat</div>
+        <div className="flex items-center gap-2 text-gray-500">
+          <FontAwesomeIcon
+            size="sm"
+            color="gray"
+            icon={faUser}
+          ></FontAwesomeIcon>
+          {viewerCount}
+        </div>
+      </div>
       <div
         style={{
           overflowAnchor: "auto",

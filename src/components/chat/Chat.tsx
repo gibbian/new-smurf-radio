@@ -153,7 +153,7 @@ export const Chat = ({ showId }: ChatProps) => {
           onClick={() => {
             void signIn("google");
           }}
-          className="cursor-pointer text-center text-sm text-white/80"
+          className="cursor-pointer pb-4 text-center text-sm text-white/60"
         >
           Sign in with Google to chat...
         </div>

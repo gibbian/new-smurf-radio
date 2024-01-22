@@ -38,10 +38,12 @@ export const showRouter = createTRPCRouter({
   getSchedule: publicProcedure.query(async ({ ctx }) => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
+    let oneWeekFromNow = new Date();
+    oneWeekFromNow = addDays(oneWeekFromNow, 10);
     const result = await ctx.db
       .select()
       .from(shows)
-      .where(gt(shows.startTime, now))
+      .where(and(gt(shows.startTime, now), lt(shows.startTime, oneWeekFromNow)))
       .orderBy(shows.startTime);
     return result;
   }),

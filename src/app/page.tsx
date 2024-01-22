@@ -1,5 +1,8 @@
 import { format } from "date-fns";
 import { type ReactNode } from "react";
+import { Card } from "~/components/Card";
+import { ClientRenderTime } from "~/components/ClientRenderTime";
+import { HomepageOffline } from "~/components/OfflineBox";
 import { ShowInfo } from "~/components/ShowInfo";
 import { SlimShowInfo } from "~/components/SlimShowInfo";
 import { api } from "~/trpc/server";
@@ -22,15 +25,18 @@ export default async function Home() {
 
   return (
     <div className="grid gap-8 px-8 pt-4 md:grid-cols-[1fr_300px]">
-      <main className="">
-        {liveNow && (
+      <main>
+        {liveNow ? (
           <>
             <HomepageHeader>Live Now</HomepageHeader>
             <ShowInfo show={liveNow} />
+            <div className="mb-8"></div>
           </>
+        ) : (
+          <HomepageOffline />
         )}
 
-        <HomepageHeader classname="mt-8">Announcements</HomepageHeader>
+        <HomepageHeader>Announcements</HomepageHeader>
         <div>Mandatory Meeting: 6pm, Jan. 22</div>
 
         <HomepageHeader classname="mt-8">About Us</HomepageHeader>

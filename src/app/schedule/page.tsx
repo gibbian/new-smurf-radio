@@ -8,7 +8,8 @@ export default async function Page() {
   // Group shows by startDate
   const groupedShows = shows.reduce(
     (acc, show) => {
-      const key = format(show.startTime, "yds");
+      console.log(format(show.startTime, "yd"));
+      const key = new Date(show.startTime).toDateString();
       if (!acc[key]) {
         acc[key] = [];
       }

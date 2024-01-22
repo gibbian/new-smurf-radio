@@ -4,12 +4,9 @@ interface OfflineStreamIndicatorProps {
 }
 export const OfflineStreamIndicator = (props: OfflineStreamIndicatorProps) => {
   useEffect(() => {
-    const interval = setInterval(
-      () => {
-        props.refetch();
-      },
-      1000 * 60 * 5,
-    );
+    const interval = setInterval(() => {
+      props.refetch();
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
   return (

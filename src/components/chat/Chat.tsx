@@ -147,12 +147,12 @@ interface MessageProps {
 
 export const Message = ({ message }: MessageProps) => {
   return (
-    <div>
-      <div className="my-2 flex justify-between">
-        <div>{message.userName}</div>
-        <div>{timeSince(message.timestamp)}</div>
+    <div className="my-4">
+      <div className="flex justify-between text-xs">
+        <div className="text-white/80">{message.userName}</div>
+        <div className="text-white/50">{timeSince(message.timestamp)}</div>
       </div>
-      <div className="text-wrap">{message.message}</div>
+      <div className="text-wrap text-[14px]">{message.message}</div>
     </div>
   );
 };

@@ -46,7 +46,12 @@ export const LiveView = ({ payload }: LiveViewProps) => {
     <div className="flex max-h-full flex-1 flex-col gap-6 overflow-y-auto sm:flex-row md:h-full">
       <div className="LEFT flex-grow md:flex md:flex-col md:justify-between">
         <div className="TOP ">
-          <ShowInfo show={payload.currentShow}></ShowInfo>
+          <ShowInfo
+            extraElements={
+              <Player title={"SMURF Radio - " + payload.currentShow.djName} />
+            }
+            show={payload.currentShow}
+          ></ShowInfo>
           {payload.nextShows.length > 0 && (
             <div className="my-4 text-center text-xs text-text/50">
               Next Up...
@@ -58,7 +63,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
             ))}
           </div>
         </div>
-        <Player title={"SMURF Radio - " + payload.currentShow.djName} />
+        {/* <Player title={"SMURF Radio - " + payload.currentShow.djName} /> */}
       </div>
       {ChatComponent}
     </div>

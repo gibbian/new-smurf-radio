@@ -95,7 +95,7 @@ interface IconContainerProps {
 }
 const IconContainer = ({ icon, onClick }: IconContainerProps) => {
   return (
-    <div className="cursor-pointer p-4" onClick={onClick}>
+    <div className="cursor-pointer" onClick={onClick}>
       <FontAwesomeIcon color="#bbb" size="lg" icon={icon}></FontAwesomeIcon>
     </div>
   );

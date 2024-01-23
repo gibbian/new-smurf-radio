@@ -1,6 +1,6 @@
 "use client";
 import { type Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";

@@ -1,8 +1,7 @@
-import { format } from "date-fns";
+import Link from "next/link";
 import { type ReactNode } from "react";
 import { HomepageOffline } from "~/components/OfflineBox";
 import { ShowInfo } from "~/components/ShowInfo";
-import { SlimShowInfo } from "~/components/SlimShowInfo";
 import { HomepageScheduleShow } from "~/components/views/ScheduleShow";
 import { api } from "~/trpc/server";
 import { cn } from "~/utils";
@@ -29,7 +28,9 @@ export default async function Home() {
         {liveNow ? (
           <>
             <HomepageHeader>Live Now</HomepageHeader>
-            <ShowInfo show={liveNow} />
+            <Link href="/live">
+              <ShowInfo show={liveNow} />
+            </Link>
             <div className="mb-8"></div>
           </>
         ) : (

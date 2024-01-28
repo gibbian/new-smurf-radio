@@ -115,7 +115,7 @@ export const adminRouter = createTRPCRouter({
 
   fillSchedule: adminProcedure.mutation(async ({ ctx }) => {
     // Get a list of djs that don't have a slot in the next 7 days
-    const nextWeek = addWeeks(new Date(), 1);
+    const nextWeek = addWeeks(new Date(), 2);
     const rightNow = new Date();
     const result = await ctx.db
       .select({

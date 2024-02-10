@@ -3,7 +3,7 @@ import { z } from "zod";
 import { djs, shows, slots, users } from "../db/schema";
 import { adminProcedure, createTRPCRouter } from "./trpc";
 
-import { addHours, addWeeks, getDay, getHours } from "date-fns";
+import { addDays, addHours, getDay, getHours } from "date-fns";
 import {
   and,
   asc,
@@ -12,7 +12,6 @@ import {
   gt,
   isNotNull,
   isNull,
-  lt,
   type InferInsertModel,
 } from "drizzle-orm";
 import { getCurrentShow } from "../helpers/shows";
@@ -115,8 +114,10 @@ export const adminRouter = createTRPCRouter({
 
   fillSchedule: adminProcedure.mutation(async ({ ctx }) => {
     // Get a list of djs that don't have a slot in the next 7 days
-    const nextWeek = addWeeks(new Date(), 2);
+    const nextWeek = addDays(new Date(), 2);
+    console.log("NEXT WEEK", nextWeek.toLocaleString());
     const rightNow = new Date();
+    console.log("RIGHT NOW", rightNow.toLocaleString());
     const result = await ctx.db
       .select({
         ...getTableColumns(djs),
@@ -127,13 +128,11 @@ export const adminRouter = createTRPCRouter({
       .innerJoin(slots, eq(slots.djId, djs.id))
       .leftJoin(
         shows,
-        and(
-          eq(shows.djId, djs.id),
-          gt(shows.startTime, rightNow),
-          lt(shows.startTime, nextWeek),
-        ),
+        and(eq(shows.djId, djs.id), gt(shows.startTime, nextWeek)),
       )
       .where(and(isNotNull(slots.djId), isNull(shows.djId)));
+
+    console.log("RESULT", result.length);
 
     const toInsert: InferInsertModel<typeof shows>[] = [];
 

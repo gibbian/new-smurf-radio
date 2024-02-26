@@ -58,6 +58,10 @@ export const shows = pgTable("show", {
   lastSaved: timestamp("last_saved", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP(3)`),
+
+  currentlyPlaying: varchar("currently_playing", { length: 255 }).references(
+    () => songs.id,
+  ),
 });
 
 export const slots = pgTable(
@@ -103,15 +107,15 @@ export const chatMessages = pgTable("chat_message", {
 export const songs = pgTable("song", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
-  artist: varchar("artist", { length: 255 }).notNull(),
+  artist: varchar("artist", { length: 255 }),
   artistId: varchar("artist_id", { length: 255 }),
   album: varchar("album", { length: 255 }).notNull(),
   albumArt: varchar("album_art", { length: 255 }),
   albumId: varchar("album_id", { length: 255 }),
   externalUrl: varchar("external_url", { length: 255 }),
   duration: bigint("duration", { mode: "bigint" }),
-  explicit: varchar("explicit", { length: 255 }),
-  popularity: bigint("popularity", { mode: "bigint" }),
+  explicit: boolean("explicit").notNull().default(false),
+  popularity: integer("popularity"),
   previewUrl: varchar("preview_url", { length: 255 }),
 
   // spotifyBlob: json("spotifyBlob").$type<SpotifyApi.TrackObjectFull>(),

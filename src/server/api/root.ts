@@ -7,6 +7,7 @@ import { liveRouter } from "./live";
 import { chatRouter } from "./chat";
 import { mixlrRouter } from "./mixlr";
 import { accountRouter } from "./account";
+import { spotifyRouter } from "./spotify";
 
 /**
  * This is the primary router for your server.
@@ -22,6 +23,7 @@ export const appRouter = createTRPCRouter({
   chat: chatRouter,
   mixlr: mixlrRouter,
   account: accountRouter,
+  spotify: spotifyRouter,
 });
 
 // export type definition of API

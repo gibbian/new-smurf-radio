@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card } from "../Card";
 import { Chat } from "../chat/Chat";
 import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { useSession } from "next-auth/react";
+import { BottomLiveView } from "../live/BottomLiveView";
 
 interface LiveViewProps {
   payload: NonNullable<RouterOutputs["live"]["getLivePayload"]>;
@@ -18,6 +20,7 @@ interface LiveViewProps {
 
 export const LiveView = ({ payload }: LiveViewProps) => {
   const { width } = useViewportSize();
+  const session = useSession();
 
   const ChatComponent = (
     <>
@@ -44,7 +47,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
 
   return (
     <div className="flex max-h-full flex-1 flex-col gap-6 overflow-y-auto sm:flex-row md:h-full">
-      <div className="LEFT flex-grow md:flex md:flex-col md:justify-between">
+      <div className="LEFT flex-grow p-[1px] md:flex md:flex-col md:justify-between">
         <div className="TOP ">
           <ShowInfo
             extraElements={
@@ -64,6 +67,10 @@ export const LiveView = ({ payload }: LiveViewProps) => {
           </div>
         </div>
         {/* <Player title={"SMURF Radio - " + payload.currentShow.djName} /> */}
+        <BottomLiveView
+          isHost={payload.currentShow.djId === session.data?.user.djId}
+          showId={payload.currentShow.id}
+        />
       </div>
       {ChatComponent}
     </div>

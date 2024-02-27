@@ -24,7 +24,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
 
   const ChatComponent = (
     <>
-      <Card className="flex flex-col justify-between gap-3 max-sm:hidden md:min-w-[350px] md:max-w-[350px]">
+      <Card className="flex flex-col justify-between gap-3 max-sm:hidden md:min-w-[450px] md:max-w-[450px]">
         <Chat showId={payload.currentShow.id} />
       </Card>
       <Drawer preventScrollRestoration>

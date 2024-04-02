@@ -43,7 +43,8 @@ export const Chat = ({ showId }: ChatProps) => {
   const room = useRef(
     supabase.channel(showId, {
       config: {
-        presence: { key: nanoid(5) },
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        presence: { key: nanoid(5) + "-" + session?.user?.name || "" },
       },
     }),
   );

@@ -44,7 +44,7 @@ export const Chat = ({ showId }: ChatProps) => {
     supabase.channel(showId, {
       config: {
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        presence: { key: nanoid(5) + "-" + session?.user?.name || "" },
+        presence: { key: nanoid(5) + "-" + (session?.user?.name || "") },
       },
     }),
   );

@@ -31,6 +31,7 @@ const config = {
         caughtErrorsIgnorePattern: "^_",
       },
     ],
+    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-misused-promises": [
       "error",

@@ -4,6 +4,7 @@ import { shows } from "../db/schema";
 import { getCurrentShow } from "../helpers/shows";
 import { createTRPCRouter, publicProcedure } from "./trpc";
 import { addDays } from "date-fns";
+import { Schedule } from "~/core/schedule";
 
 // NOTE: will maybe use in the future
 // const showWithNameCol = () => {
@@ -35,18 +36,8 @@ export const showRouter = createTRPCRouter({
     return await getCurrentShow();
   }),
 
-  getSchedule: publicProcedure.query(async ({ ctx }) => {
-    const now = new Date();
-    // Set timezone to cst
-    now.setHours(now.getHours() - 5);
-    let oneWeekFromNow = new Date();
-    oneWeekFromNow = addDays(oneWeekFromNow, 10);
-    const result = await ctx.db
-      .select()
-      .from(shows)
-      .where(and(gt(shows.startTime, now), lt(shows.startTime, oneWeekFromNow)))
-      .orderBy(shows.startTime);
-    return result;
+  getSchedule: publicProcedure.query(async () => {
+    return Schedule.getSchedule();
   }),
 
   getNextShow: publicProcedure.query(async ({ ctx }) => {

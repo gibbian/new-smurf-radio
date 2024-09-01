@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LinkEmail } from "~/components/admin/LinkEmail";
+import { DJLinkingCode } from "~/components/admin/DJLinkingCode";
 import { QuickControlCard } from "~/components/admin/QuickControlCard";
 import { UpcomingShowCard } from "~/components/member/UpcomingShowCard";
 import { api } from "~/trpc/server";
@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: { djId: string } }) {
           </div>
         </div>
         <QuickControlCard title="Link Email">
-          <LinkEmail djId={params.djId} />
+          <DJLinkingCode djId={params.djId} />
         </QuickControlCard>
       </div>
       <div>Shows</div>

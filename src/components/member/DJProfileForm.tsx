@@ -18,19 +18,19 @@ const djProfileSchema = z.object({
     .url("Must be a valid URL")
     .optional()
     .or(z.literal(""))
-    .transform((v) => v || undefined),
+    .transform((v) => v ?? undefined),
   twitterLink: z
     .string()
     .url("Must be a valid URL")
     .optional()
     .or(z.literal(""))
-    .transform((v) => v || undefined),
+    .transform((v) => v ?? undefined),
   spotifyLink: z
     .string()
     .url("Must be a valid URL")
     .optional()
     .or(z.literal(""))
-    .transform((v) => v || undefined),
+    .transform((v) => v ?? undefined),
 });
 
 type DJProfileFormData = z.infer<typeof djProfileSchema>;
@@ -40,9 +40,9 @@ interface DJProfileFormProps {
     id: string;
     name: string;
     bio?: string | null;
-    instagramLink?: string;
-    twitterLink?: string;
-    spotifyLink?: string;
+    instagramLink: string | null;
+    twitterLink: string | null;
+    spotifyLink: string | null;
   };
 }
 

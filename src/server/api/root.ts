@@ -1,6 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { adminRouter } from "./admin";
-import { djRouter } from "./djs";
 import { memberRouter } from "./member";
 import { showRouter } from "./show";
 import { liveRouter } from "./live";
@@ -8,6 +7,7 @@ import { chatRouter } from "./chat";
 import { mixlrRouter } from "./mixlr";
 import { accountRouter } from "./account";
 import { spotifyRouter } from "./spotify";
+import { djRouter } from "./djs";
 
 /**
  * This is the primary router for your server.

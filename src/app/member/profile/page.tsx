@@ -21,11 +21,6 @@ export default async function DJProfilePage() {
   // Add this type assertion
   const typedDjDetails = {
     ...djDetails,
-    socialLinks: djDetails.socialLinks as {
-      instagram?: string;
-      twitter?: string;
-      spotify?: string;
-    } | null,
   };
 
   return (

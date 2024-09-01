@@ -12,6 +12,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
+import { nanoid } from "nanoid";
+import slugify from "slugify";
 
 export const djs = pgTable("dj", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -246,3 +248,18 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey(vt.identifier, vt.token),
   }),
 );
+
+export const djLinkingCodes = pgTable("dj_linking_code", {
+  code: varchar("code", { length: 255 }).notNull().primaryKey(),
+  djId: varchar("dj_id", { length: 255 })
+    .notNull()
+    .references(() => djs.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+});
+
+export const djLinkingCodesRelations = relations(djLinkingCodes, ({ one }) => ({
+  dj: one(djs, { fields: [djLinkingCodes.djId], references: [djs.id] }),
+}));

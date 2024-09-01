@@ -4,6 +4,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   primaryKey,
   text,
@@ -15,7 +16,13 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const djs = pgTable("dj", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
-
+  bio: text("bio"),
+  // Remove the socialLinks jsonb column
+  // socialLinks: jsonb("social_links"),
+  // Add separate columns for each social media site
+  instagramLink: varchar("instagram_link", { length: 255 }),
+  twitterLink: varchar("twitter_link", { length: 255 }),
+  spotifyLink: varchar("spotify_link", { length: 255 }),
   joined: timestamp("joined", { withTimezone: true })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),

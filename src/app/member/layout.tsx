@@ -20,6 +20,10 @@ export default function ({ children }: { children: ReactNode }) {
       label: "Upcoming Shows",
       href: "/member/upcoming",
     },
+    {
+      label: "Edit Profile",
+      href: "/member/profile",
+    },
   ];
 
   const user = auth.data.user;

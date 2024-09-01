@@ -15,11 +15,7 @@ export const djRouter = createTRPCRouter({
       const result = await ctx.db.query.djs.findFirst({
         where: eq(djs.id, input.djId),
         with: {
-          shows: {
-            columns: {
-              genres: true,
-            },
-          },
+          shows: true,
           user: true,
           slot: true,
         },

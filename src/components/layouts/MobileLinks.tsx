@@ -31,7 +31,7 @@ export const MobileLinks = ({
       </div>
       {open &&
         createPortal(
-          <div className="fixed bottom-0 left-0 right-0 top-0 z-[3000] flex w-full flex-col items-center gap-4 bg-bg p-2 pt-8 text-xl text-text">
+          <div className="fixed bottom-0 left-0 right-0 top-0 z-[3000] flex w-full flex-col items-center gap-4 bg-[#212E5C] p-2 pt-8 text-xl text-text">
             {links.map((link) => (
               <Link
                 onClick={() => setOpen(false)}

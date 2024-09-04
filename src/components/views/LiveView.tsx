@@ -24,13 +24,13 @@ export const LiveView = ({ payload }: LiveViewProps) => {
 
   const ChatComponent = (
     <>
-      <Card className="flex flex-col justify-between gap-3 max-sm:hidden md:min-w-[350px] md:max-w-[350px]">
+      <Card className="flex flex-col justify-between gap-3 bg-bg max-sm:hidden md:min-w-[350px] md:max-w-[350px]">
         <Chat showId={payload.currentShow.id} />
       </Card>
       <Drawer preventScrollRestoration>
         {width < 700 && (
           <DrawerTrigger>
-            <div className="fixed bottom-0 flex w-screen items-center justify-center gap-4 rounded-t-2xl border border-border border-b-transparent bg-card-bg py-2 text-sm focus:ring-transparent sm:hidden">
+            <div className="fixed bottom-0 left-0 right-0 flex w-screen items-center justify-center gap-4 rounded-t-2xl border border-border border-b-transparent bg-card-bg py-2 text-sm focus:ring-transparent sm:hidden">
               <FontAwesomeIcon icon={faChevronUp}></FontAwesomeIcon>
               Open Chat
             </div>
@@ -54,6 +54,7 @@ export const LiveView = ({ payload }: LiveViewProps) => {
               <Player title={"SMURF Radio - " + payload.currentShow.djName} />
             }
             show={payload.currentShow}
+            fillBg={false}
           ></ShowInfo>
           {payload.nextShows.length > 0 && (
             <div className="my-4 text-center text-xs text-text/50">

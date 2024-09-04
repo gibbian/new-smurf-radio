@@ -10,7 +10,7 @@ export default async function () {
   }
 
   return (
-    <div>
+    <div className="px-8 pb-8 pt-4">
       <AccountPageForm session={session} />
     </div>
   );

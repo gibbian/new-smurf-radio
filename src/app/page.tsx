@@ -13,9 +13,7 @@ const HomepageHeader = ({
   children: ReactNode;
   classname?: string;
 }) => {
-  return (
-    <div className={cn("text-[22px] font-bold", classname)}>{children}</div>
-  );
+  return <div className={cn("text-[22px]", classname)}>{children}</div>;
 };
 
 export default async function Home() {
@@ -38,10 +36,12 @@ export default async function Home() {
         )}
 
         <HomepageHeader>Announcements</HomepageHeader>
-        <div>Mandatory Meeting: 6pm, Jan. 22</div>
+        <div>
+          Mandatory Meeting: Friday, September 6th from 4:30-5:30 in HT 120
+        </div>
 
         <HomepageHeader classname="mt-8">About Us</HomepageHeader>
-        <div>
+        <div className="text-sm">
           Student Managed University Radio Frequency is SMU’s college radio
           program! We were officiated in April of 2023. This program is open to
           all music and/or radio enthusiasts, and we strive to provide a

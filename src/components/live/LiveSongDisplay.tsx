@@ -31,7 +31,7 @@ export const LiveSongDisplay = ({ showId }: LiveSongDisplayProps) => {
     >
       {data.albumArt && (
         <Image
-          className="h-12 w-12 cursor-pointer sm:h-[140px] sm:w-[140px] xl:h-[190px] xl:w-[190px]"
+          className="aspect-square h-12 w-12 cursor-pointer sm:h-[140px] sm:w-[140px] xl:h-[190px] xl:w-[190px]"
           alt="Album art"
           width={160}
           height={160}

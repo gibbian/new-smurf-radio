@@ -22,9 +22,9 @@ const config = {
     },
     extend: {
       colors: {
-        bg: "#212121",
-        "card-bg": "#2e2e2e",
-        border: "#414141",
+        bg: "#121212",
+        "card-bg": "#121212",
+        border: "#515151",
         text: "#ffffff",
         "input-bg": "#191919",
         "smu-red": "#CC0135",

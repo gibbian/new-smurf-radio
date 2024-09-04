@@ -51,7 +51,7 @@ export const EditShowForm = ({ initialData }: EditShowFormProps) => {
 
   return (
     <div>
-      <div className="my-10 text-xl">
+      <div className="text-xl">
         Editing show for{" "}
         <div className="text-2xl font-bold">
           {format(initialData.startTime, "h aa EEEE LLL d")}

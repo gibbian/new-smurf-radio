@@ -27,10 +27,10 @@ export const LiveBar = () => {
 
   return (
     <Link href="/live">
-      <div className="flex items-center justify-between gap-7 border-b border-[#939393] bg-bg px-6 py-[7px] md:justify-start ">
+      <div className="flex items-center justify-between gap-7 border-b border-[#939393] bg-[#111830]  px-6 py-[7px] md:justify-start md:px-36 ">
         <LiveIndicator />
         <div className="flex items-center gap-4">
-          <div className="text-[14px] font-bold">{possibleLive?.djName}</div>
+          <div className="text-[14px]">{possibleLive?.djName}</div>
           <div className="text-[14px] font-normal">
             {lightFormat(possibleLive?.startTime, "ha")} -{" "}
             {lightFormat(possibleLive?.endTime, "ha")}

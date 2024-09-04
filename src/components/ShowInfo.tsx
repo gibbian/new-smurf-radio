@@ -22,15 +22,15 @@ export const ShowInfo = ({
   variant = "full",
   extraElements,
 }: ShowInfoProps) => {
-  const outer = cva("border flex-col flex border-border", {
+  const outer = cva("flex-col flex", {
     variants: {
       variant: {
         full: "gap-3 p-4",
         compact: "gap-1 p-3",
       },
       fillBg: {
-        true: "bg-card-bg",
-        false: "bg-transparent border-2",
+        true: "bg-neutral-800",
+        false: "bg-[#191919] border border-neutral-600",
       },
     },
 
@@ -44,11 +44,9 @@ export const ShowInfo = ({
     <div className={outer({ fillBg, variant })}>
       <div className="flex w-full items-center justify-between gap-8">
         <div className="flex gap-10">
-          <div className="text-[16px] font-bold">{show.djName}</div>
+          <div className="text-[14px] font-semibold">{show.djName}</div>
           {variant == "compact" && (
-            <div className="text-[16px] font-medium text-text/40">
-              {show.title}
-            </div>
+            <div className="text-[14px] text-text/40">{show.title}</div>
           )}
         </div>
         <div className="flex gap-6 text-[14px]">

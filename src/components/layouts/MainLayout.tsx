@@ -22,7 +22,7 @@ export const MainLayout = ({
   const pathname = usePathname();
 
   const mainContainerClass = cn(
-    "p-4 text-text md:p-6",
+    "mx-4 text-text bg-[#141414] border border-b-none grow border-black px-4 md:px-8 pb-12 md:mx-[80px] lg:mx-[120px]",
     pathname === "/live" && "flex-1 overflow-hidden p-0 sm:p-4",
   );
 
@@ -30,7 +30,8 @@ export const MainLayout = ({
     <SessionProvider session={session}>
       <div
         className={cn(
-          pathname === "/live" && "flex h-screen min-h-screen flex-col",
+          "flex h-screen min-h-screen flex-col border-b-0",
+          pathname === "/live" && "debug flex h-screen min-h-screen flex-col",
         )}
       >
         <Navbar session={session}></Navbar>

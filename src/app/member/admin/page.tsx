@@ -7,7 +7,7 @@ import { RandomButtons } from "~/components/admin/RandomButtons";
 
 export default async function () {
   return (
-    <>
+    <div className="pb-8">
       <DJList />
       <div className="grid grid-cols-3 gap-2">
         <QuickControlCard
@@ -27,6 +27,6 @@ export default async function () {
           <RandomButtons />
         </QuickControlCard>
       </div>
-    </>
+    </div>
   );
 }

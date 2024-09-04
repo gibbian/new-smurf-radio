@@ -62,7 +62,7 @@ export const Navbar = ({ session }: { session: Session | null }) => {
           {session?.user ? null : (
             <div
               onClick={() => signIn("google")}
-              className="cursor-pointer text-sm font-semibold uppercase"
+              className="cursor-pointer text-sm"
             >
               Sign In
             </div>

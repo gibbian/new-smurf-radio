@@ -22,3 +22,4 @@ export default async function LinkDJAccountPage() {
     </div>
   );
 }
+export const dynamic = "force-dynamic";

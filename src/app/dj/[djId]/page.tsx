@@ -21,3 +21,5 @@ export default async function DJProfilePage({
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";

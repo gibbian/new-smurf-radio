@@ -21,8 +21,14 @@ export const DJLinkingCode = async ({ djId }: { djId: string }) => {
   if (existingCode) {
     return (
       <div>
-        <p>Existing linking code: {existingCode.code}</p>
-        <p>Expires at: {existingCode.expiresAt.toLocaleString()}</p>
+        <p>
+          Heres your linking code to access the member pages:
+          <br />
+          {existingCode.code}
+          <br />
+          Just go to https://www.smuradiofrequency.com/link and paste it in.
+          Make sure you're signed in.
+        </p>
       </div>
     );
   }

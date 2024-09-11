@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { djId: string } }) {
       <div>Shows</div>
       <div className="flex flex-col gap-2">
         {details.shows.map((show) => (
-          <Link href={`/member/edit/${show.id}`}>
+          <Link key={show.id} href={`/member/edit/${show.id}`}>
             <UpcomingShowCard show={show} key={show.id} />
           </Link>
         ))}

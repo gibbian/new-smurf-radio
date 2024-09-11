@@ -86,7 +86,7 @@ export const djRouter = createTRPCRouter({
         where: eq(djLinkingCodes.code, input.code),
       });
 
-      if (!linkingCode || linkingCode.expiresAt < new Date()) {
+      if (!linkingCode) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Invalid or expired linking code",

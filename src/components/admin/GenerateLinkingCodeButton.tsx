@@ -24,7 +24,14 @@ export default function GenerateLinkingCodeButton({ djId }: { djId: string }) {
   };
 
   if (generatedCode) {
-    return <p>New linking code: {generatedCode}</p>;
+    return (
+      <p>
+        Heres your linking code to access the member pages: {generatedCode}
+        <br />
+        Just go to https://www.smuradiofrequency.com/link and paste it in. Make
+        sure you're signed in.
+      </p>
+    );
   }
 
   return (

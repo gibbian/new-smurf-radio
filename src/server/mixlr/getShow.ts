@@ -65,7 +65,7 @@ export const getShow = async () => {
   const icecast = await getIcecast();
   if (icecast?.icestats.source) {
     console.log("ICECAST: ", icecast.icestats.source);
-    return "https://listen.drewh.net/shuffle";
+    return "https://listen.drewh.net/shuffe";
   }
 
   const response = await fetch(
